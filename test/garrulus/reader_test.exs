@@ -195,49 +195,49 @@ defmodule Garrulus.ReaderTest do
     @invalid_attrs %{read: nil}
 
     test "list_uentries/0 returns all uentries" do
-      u_entry = u_entry_fixture()
-      assert Reader.list_uentries() == [u_entry]
+      uentry = uentry_fixture()
+      assert Reader.list_uentries() == [uentry]
     end
 
-    test "get_u_entry!/1 returns the u_entry with given id" do
-      u_entry = u_entry_fixture()
-      assert Reader.get_u_entry!(u_entry.id) == u_entry
+    test "get_uentry!/1 returns the uentry with given id" do
+      uentry = uentry_fixture()
+      assert Reader.get_uentry!(uentry.id) == uentry
     end
 
-    test "create_u_entry/1 with valid data creates a u_entry" do
+    test "create_uentry/1 with valid data creates a uentry" do
       valid_attrs = %{read: true}
 
-      assert {:ok, %UEntry{} = u_entry} = Reader.create_u_entry(valid_attrs)
-      assert u_entry.read == true
+      assert {:ok, %UEntry{} = uentry} = Reader.create_uentry(valid_attrs)
+      assert uentry.read == true
     end
 
-    test "create_u_entry/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Reader.create_u_entry(@invalid_attrs)
+    test "create_uentry/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Reader.create_uentry(@invalid_attrs)
     end
 
-    test "update_u_entry/2 with valid data updates the u_entry" do
-      u_entry = u_entry_fixture()
+    test "update_uentry/2 with valid data updates the uentry" do
+      uentry = uentry_fixture()
       update_attrs = %{read: false}
 
-      assert {:ok, %UEntry{} = u_entry} = Reader.update_u_entry(u_entry, update_attrs)
-      assert u_entry.read == false
+      assert {:ok, %UEntry{} = uentry} = Reader.update_uentry(uentry, update_attrs)
+      assert uentry.read == false
     end
 
-    test "update_u_entry/2 with invalid data returns error changeset" do
-      u_entry = u_entry_fixture()
-      assert {:error, %Ecto.Changeset{}} = Reader.update_u_entry(u_entry, @invalid_attrs)
-      assert u_entry == Reader.get_u_entry!(u_entry.id)
+    test "update_uentry/2 with invalid data returns error changeset" do
+      uentry = uentry_fixture()
+      assert {:error, %Ecto.Changeset{}} = Reader.update_uentry(uentry, @invalid_attrs)
+      assert uentry == Reader.get_uentry!(uentry.id)
     end
 
-    test "delete_u_entry/1 deletes the u_entry" do
-      u_entry = u_entry_fixture()
-      assert {:ok, %UEntry{}} = Reader.delete_u_entry(u_entry)
-      assert_raise Ecto.NoResultsError, fn -> Reader.get_u_entry!(u_entry.id) end
+    test "delete_uentry/1 deletes the uentry" do
+      uentry = uentry_fixture()
+      assert {:ok, %UEntry{}} = Reader.delete_uentry(uentry)
+      assert_raise Ecto.NoResultsError, fn -> Reader.get_uentry!(uentry.id) end
     end
 
-    test "change_u_entry/1 returns a u_entry changeset" do
-      u_entry = u_entry_fixture()
-      assert %Ecto.Changeset{} = Reader.change_u_entry(u_entry)
+    test "change_uentry/1 returns a uentry changeset" do
+      uentry = uentry_fixture()
+      assert %Ecto.Changeset{} = Reader.change_uentry(uentry)
     end
   end
 end

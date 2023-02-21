@@ -59,16 +59,16 @@ defmodule Garrulus.ReaderFixtures do
   end
 
   @doc """
-  Generate a u_entry.
+  Generate a uentry.
   """
-  def u_entry_fixture(attrs \\ %{}) do
-    {:ok, u_entry} =
+  def uentry_fixture(attrs \\ %{}) do
+    {:ok, uentry} =
       attrs
       |> Enum.into(%{
         read: true
       })
-      |> Garrulus.Reader.create_u_entry()
+      |> Garrulus.Reader.create_uentry()
 
-    u_entry
+    uentry
   end
 end

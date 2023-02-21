@@ -310,83 +310,83 @@ defmodule Garrulus.Reader do
   end
 
   @doc """
-  Gets a single u_entry.
+  Gets a single uentry.
 
   Raises `Ecto.NoResultsError` if the U entry does not exist.
 
   ## Examples
 
-      iex> get_u_entry!(123)
+      iex> get_uentry!(123)
       %UEntry{}
 
-      iex> get_u_entry!(456)
+      iex> get_uentry!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_u_entry!(id), do: Repo.get!(UEntry, id)
+  def get_uentry!(id), do: Repo.get!(UEntry, id)
 
   @doc """
-  Creates a u_entry.
+  Creates a uentry.
 
   ## Examples
 
-      iex> create_u_entry(%{field: value})
+      iex> create_uentry(%{field: value})
       {:ok, %UEntry{}}
 
-      iex> create_u_entry(%{field: bad_value})
+      iex> create_uentry(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_u_entry(attrs \\ %{}) do
+  def create_uentry(attrs \\ %{}) do
     %UEntry{}
     |> UEntry.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a u_entry.
+  Updates a uentry.
 
   ## Examples
 
-      iex> update_u_entry(u_entry, %{field: new_value})
+      iex> update_uentry(uentry, %{field: new_value})
       {:ok, %UEntry{}}
 
-      iex> update_u_entry(u_entry, %{field: bad_value})
+      iex> update_uentry(uentry, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_u_entry(%UEntry{} = u_entry, attrs) do
-    u_entry
+  def update_uentry(%UEntry{} = uentry, attrs) do
+    uentry
     |> UEntry.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a u_entry.
+  Deletes a uentry.
 
   ## Examples
 
-      iex> delete_u_entry(u_entry)
+      iex> delete_uentry(uentry)
       {:ok, %UEntry{}}
 
-      iex> delete_u_entry(u_entry)
+      iex> delete_uentry(uentry)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_u_entry(%UEntry{} = u_entry) do
-    Repo.delete(u_entry)
+  def delete_uentry(%UEntry{} = uentry) do
+    Repo.delete(uentry)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking u_entry changes.
+  Returns an `%Ecto.Changeset{}` for tracking uentry changes.
 
   ## Examples
 
-      iex> change_u_entry(u_entry)
+      iex> change_uentry(uentry)
       %Ecto.Changeset{data: %UEntry{}}
 
   """
-  def change_u_entry(%UEntry{} = u_entry, attrs \\ %{}) do
-    UEntry.changeset(u_entry, attrs)
+  def change_uentry(%UEntry{} = uentry, attrs \\ %{}) do
+    UEntry.changeset(uentry, attrs)
   end
 end
