@@ -8,6 +8,9 @@ defmodule Garrulus.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    has_many :uentries, Garrulus.Reader.UEntry
+    many_to_many :feeds, Garrulus.Reader.Feed, join_through: Garrulus.Reader.Subscription
+
     timestamps()
   end
 
