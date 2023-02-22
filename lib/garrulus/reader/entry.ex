@@ -11,7 +11,6 @@ defmodule Garrulus.Reader.Entry do
     field :title, :string
 
     belongs_to :feed, Garrulus.Reader.Feed
-
     has_many :uentries, Garrulus.Reader.UEntry
 
     timestamps()

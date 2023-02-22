@@ -8,7 +8,16 @@ defmodule Garrulus.ReaderTest do
 
     import Garrulus.ReaderFixtures
 
-    @invalid_attrs %{backoff: nil, etag: nil, guid: nil, last_failed: nil, last_fetched: nil, next_fetch: nil, title: nil, url: nil}
+    @invalid_attrs %{
+      backoff: nil,
+      etag: nil,
+      guid: nil,
+      last_failed: nil,
+      last_fetched: nil,
+      next_fetch: nil,
+      title: nil,
+      url: nil
+    }
 
     test "list_feeds/0 returns all feeds" do
       feed = feed_fixture()
@@ -21,7 +30,16 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "create_feed/1 with valid data creates a feed" do
-      valid_attrs = %{backoff: 42, etag: "some etag", guid: "some guid", last_failed: ~N[2023-02-20 12:03:00], last_fetched: ~N[2023-02-20 12:03:00], next_fetch: ~N[2023-02-20 12:03:00], title: "some title", url: "some url"}
+      valid_attrs = %{
+        backoff: 42,
+        etag: "some etag",
+        guid: "some guid",
+        last_failed: ~N[2023-02-20 12:03:00],
+        last_fetched: ~N[2023-02-20 12:03:00],
+        next_fetch: ~N[2023-02-20 12:03:00],
+        title: "some title",
+        url: "some url"
+      }
 
       assert {:ok, %Feed{} = feed} = Reader.create_feed(valid_attrs)
       assert feed.backoff == 42
@@ -40,7 +58,17 @@ defmodule Garrulus.ReaderTest do
 
     test "update_feed/2 with valid data updates the feed" do
       feed = feed_fixture()
-      update_attrs = %{backoff: 43, etag: "some updated etag", guid: "some updated guid", last_failed: ~N[2023-02-21 12:03:00], last_fetched: ~N[2023-02-21 12:03:00], next_fetch: ~N[2023-02-21 12:03:00], title: "some updated title", url: "some updated url"}
+
+      update_attrs = %{
+        backoff: 43,
+        etag: "some updated etag",
+        guid: "some updated guid",
+        last_failed: ~N[2023-02-21 12:03:00],
+        last_fetched: ~N[2023-02-21 12:03:00],
+        next_fetch: ~N[2023-02-21 12:03:00],
+        title: "some updated title",
+        url: "some updated url"
+      }
 
       assert {:ok, %Feed{} = feed} = Reader.update_feed(feed, update_attrs)
       assert feed.backoff == 43
@@ -76,7 +104,14 @@ defmodule Garrulus.ReaderTest do
 
     import Garrulus.ReaderFixtures
 
-    @invalid_attrs %{author: nil, description: nil, guid: nil, link: nil, published: nil, title: nil}
+    @invalid_attrs %{
+      author: nil,
+      description: nil,
+      guid: nil,
+      link: nil,
+      published: nil,
+      title: nil
+    }
 
     test "list_entries/0 returns all entries" do
       entry = entry_fixture()
@@ -89,7 +124,14 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "create_entry/1 with valid data creates a entry" do
-      valid_attrs = %{author: "some author", description: "some description", guid: "some guid", link: "some link", published: ~N[2023-02-20 12:04:00], title: "some title"}
+      valid_attrs = %{
+        author: "some author",
+        description: "some description",
+        guid: "some guid",
+        link: "some link",
+        published: ~N[2023-02-20 12:04:00],
+        title: "some title"
+      }
 
       assert {:ok, %Entry{} = entry} = Reader.create_entry(valid_attrs)
       assert entry.author == "some author"
@@ -106,7 +148,15 @@ defmodule Garrulus.ReaderTest do
 
     test "update_entry/2 with valid data updates the entry" do
       entry = entry_fixture()
-      update_attrs = %{author: "some updated author", description: "some updated description", guid: "some updated guid", link: "some updated link", published: ~N[2023-02-21 12:04:00], title: "some updated title"}
+
+      update_attrs = %{
+        author: "some updated author",
+        description: "some updated description",
+        guid: "some updated guid",
+        link: "some updated link",
+        published: ~N[2023-02-21 12:04:00],
+        title: "some updated title"
+      }
 
       assert {:ok, %Entry{} = entry} = Reader.update_entry(entry, update_attrs)
       assert entry.author == "some updated author"
@@ -166,7 +216,8 @@ defmodule Garrulus.ReaderTest do
       subscription = subscription_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Subscription{} = _subscription} = Reader.update_subscription(subscription, update_attrs)
+      assert {:ok, %Subscription{} = _subscription} =
+               Reader.update_subscription(subscription, update_attrs)
     end
 
     # test "update_subscription/2 with invalid data returns error changeset" do

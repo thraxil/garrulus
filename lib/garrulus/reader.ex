@@ -22,6 +22,25 @@ defmodule Garrulus.Reader do
   end
 
   @doc """
+  Returns the list of feeds that are due to be fetched.
+
+  ## Examples
+
+      iex> due_feeds()
+      [%Feed{}, ...]
+
+  """
+  def due_feeds do
+    now = DateTime.utc_now()
+
+    Repo.all(
+      from f in Feed,
+        where: f.next_fetch < ^now,
+        order_by: [asc: f.next_fetch]
+    )
+  end
+
+  @doc """
   Gets a single feed.
 
   Raises `Ecto.NoResultsError` if the Feed does not exist.

@@ -15,9 +15,9 @@ defmodule Garrulus.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Garrulus.PubSub},
       # Start the Endpoint (http/https)
-      GarrulusWeb.Endpoint
+      GarrulusWeb.Endpoint,
       # Start a worker by calling: Garrulus.Worker.start_link(arg)
-      # {Garrulus.Worker, arg}
+      Garrulus.Reader.Fetcher
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

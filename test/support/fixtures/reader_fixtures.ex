@@ -50,9 +50,7 @@ defmodule Garrulus.ReaderFixtures do
   def subscription_fixture(attrs \\ %{}) do
     {:ok, subscription} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> Garrulus.Reader.create_subscription()
 
     subscription

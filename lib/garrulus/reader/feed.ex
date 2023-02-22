@@ -13,6 +13,7 @@ defmodule Garrulus.Reader.Feed do
     field :url, :string
 
     has_many :entries, Garrulus.Reader.Entry
+    many_to_many :users, Garrulus.Accounts.User, join_through: Garrulus.Reader.Subscription
 
     timestamps()
   end
@@ -20,7 +21,25 @@ defmodule Garrulus.Reader.Feed do
   @doc false
   def changeset(feed, attrs) do
     feed
-    |> cast(attrs, [:url, :guid, :title, :last_fetched, :last_failed, :next_fetch, :backoff, :etag])
-    |> validate_required([:url, :guid, :title, :last_fetched, :last_failed, :next_fetch, :backoff, :etag])
+    |> cast(attrs, [
+      :url,
+      :guid,
+      :title,
+      :last_fetched,
+      :last_failed,
+      :next_fetch,
+      :backoff,
+      :etag
+    ])
+    |> validate_required([
+      :url,
+      :guid,
+      :title,
+      :last_fetched,
+      :last_failed,
+      :next_fetch,
+      :backoff,
+      :etag
+    ])
   end
 end
