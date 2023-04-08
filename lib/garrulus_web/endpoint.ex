@@ -7,7 +7,8 @@ defmodule GarrulusWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_garrulus_key",
-    signing_salt: "59QBxD5d"
+    signing_salt: "8WCQfS2G",
+    same_site: "Lax"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
@@ -20,7 +21,7 @@ defmodule GarrulusWeb.Endpoint do
     at: "/",
     from: :garrulus,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: GarrulusWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

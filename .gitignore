@@ -32,3 +32,4 @@ garrulus-*.tar
 npm-debug.log
 /assets/node_modules/
 
+.nix-hex
