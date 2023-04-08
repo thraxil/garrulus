@@ -19,15 +19,15 @@ defmodule GarrulusWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint GarrulusWeb.Endpoint
+
+      use GarrulusWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import GarrulusWeb.ConnCase
-
-      alias GarrulusWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint GarrulusWeb.Endpoint
     end
   end
 

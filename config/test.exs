@@ -20,14 +20,17 @@ config :garrulus, Garrulus.Repo,
 # you can enable the server option below.
 config :garrulus, GarrulusWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "EMoEd7NErLl9B6TKB9QYuBsRSeUyvcctPPpUb0pYbzvMOr1BQgknGfVI8CGfYLWa",
+  secret_key_base: "eK8XpcFkGUf7t+F+QU8Z3DYdm4RQ5C6rpScy4HVTCHTFlGgmUq9V/iu/EqP7TpQo",
   server: false
 
 # In test we don't send emails.
 config :garrulus, Garrulus.Mailer, adapter: Swoosh.Adapters.Test
 
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false
+
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
