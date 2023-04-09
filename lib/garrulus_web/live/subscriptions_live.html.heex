@@ -1,0 +1,27 @@
+<section>
+  <h2>Your Subscriptions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Entries</th>
+        <th>GUID</th>
+        <th>Last Fetched</th>
+        <th>Last Failed</th>
+        <th>Next Fetch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for subscription <- @subscriptions do %>
+        <tr>
+          <td><%= subscription.feed.title %></td>
+          <td>0</td>
+          <td><%= subscription.feed.guid %></td>
+          <td><%= subscription.feed.last_fetched %></td>
+          <td><%= subscription.feed.last_failed %></td>
+          <td><%= subscription.feed.next_fetch %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+</section>

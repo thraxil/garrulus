@@ -52,7 +52,7 @@ defmodule Garrulus.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
       {:timex, "~> 3.7.9"},
-      {:bcrypt_elixir, "~> 3.0"},
+      {:bcrypt_elixir, "~> 3.0"}
     ]
   end
 

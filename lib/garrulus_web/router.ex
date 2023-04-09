@@ -23,6 +23,12 @@ defmodule GarrulusWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/", GarrulusWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/subscriptions", SubscriptionsLive, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", GarrulusWeb do
   #   pipe_through :api

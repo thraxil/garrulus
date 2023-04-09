@@ -233,6 +233,23 @@ defmodule Garrulus.Reader do
   end
 
   @doc """
+  Returns list of subscriptions for a given user
+
+  ### Examples
+
+  iex> list_user_subscriptions(user)
+  [%Subscription{}, ...]
+
+  """
+  def list_user_subscriptions(user) do
+    Repo.all(
+      from s in Subscription,
+        where: s.user_id == ^user.id
+    )
+    |> Repo.preload(:feed)
+  end
+
+  @doc """
   Gets a single subscription.
 
   Raises `Ecto.NoResultsError` if the Subscription does not exist.
