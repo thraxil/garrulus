@@ -1,0 +1,38 @@
+<section class="overflow-x-auto">
+
+  <.simple_form
+    for={@form}
+    id="create_feed"
+    phx-submit="create"
+    phx-trigger-action={@trigger_submit}
+    action={~p"/feeds"}
+    method="post">
+
+    <.error :if={@check_errors}>
+      Opps, something went wrong. Please check the errors below.
+      </.error>
+    
+    <.input field={@form[:title]} type="text" label="Title" required />
+    <.input field={@form[:url]} type="text" label="URL" required />
+
+    <:actions>
+      <.button class="w-full">Add Feed</.button>
+      </:actions>
+    </.simple_form>
+  
+  <h2>All Feeds</h2>
+  <table class="table-auto w-full table-zebra">
+    <thead class="border-b bg-neutral-50 font-medium dark:border-neutral-500 dark:text-neutral-800">
+      <tr>
+        <th>Title</th>
+        <th>URL</th>
+        <th>Last Fetched</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for feed <- @feeds do %>
+            <.feed feed={feed} />
+      <% end %>
+    </tbody>
+    </table>
+</section>

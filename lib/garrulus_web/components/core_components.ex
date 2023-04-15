@@ -637,4 +637,16 @@ defmodule GarrulusWeb.CoreComponents do
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
   end
+
+  attr :feed, Garrulus.Reader.Feed, required: true
+
+  def feed(assigns) do
+    ~H"""
+    <tr>
+       <td><b><%= @feed.title %></b></td>
+       <td><%= @feed.url %></td>
+       <td><%= @feed.last_fetched %></td>
+       </tr>
+    """
+  end
 end

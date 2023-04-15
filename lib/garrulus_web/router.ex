@@ -26,6 +26,7 @@ defmodule GarrulusWeb.Router do
   scope "/", GarrulusWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    live "/feeds", FeedsLive, :index
     live "/subscriptions", SubscriptionsLive, :index
   end
 
