@@ -12,7 +12,8 @@ defmodule Garrulus.Reader.Subscription do
   @doc false
   def changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:user_id, :feed_id])
+    |> validate_required([:user_id, :feed_id])
+    |> unique_constraint([:user_id, :feed_id])
   end
 end

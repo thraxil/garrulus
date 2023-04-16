@@ -189,21 +189,24 @@ defmodule Garrulus.ReaderTest do
     alias Garrulus.Reader.Subscription
 
     import Garrulus.ReaderFixtures
+    import Garrulus.AccountsFixtures
 
     @invalid_attrs %{}
 
     test "list_subscriptions/0 returns all subscriptions" do
-      subscription = subscription_fixture()
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
+      subscription = subscription_fixture(valid_attrs)
       assert Reader.list_subscriptions() == [subscription]
     end
 
     test "get_subscription!/1 returns the subscription with given id" do
-      subscription = subscription_fixture()
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
+      subscription = subscription_fixture(valid_attrs)
       assert Reader.get_subscription!(subscription.id) == subscription
     end
 
     test "create_subscription/1 with valid data creates a subscription" do
-      valid_attrs = %{}
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
 
       assert {:ok, %Subscription{} = _subscription} = Reader.create_subscription(valid_attrs)
     end
@@ -213,7 +216,8 @@ defmodule Garrulus.ReaderTest do
     # end
 
     test "update_subscription/2 with valid data updates the subscription" do
-      subscription = subscription_fixture()
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
+      subscription = subscription_fixture(valid_attrs)
       update_attrs = %{}
 
       assert {:ok, %Subscription{} = _subscription} =
@@ -227,13 +231,15 @@ defmodule Garrulus.ReaderTest do
     # end
 
     test "delete_subscription/1 deletes the subscription" do
-      subscription = subscription_fixture()
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
+      subscription = subscription_fixture(valid_attrs)
       assert {:ok, %Subscription{}} = Reader.delete_subscription(subscription)
       assert_raise Ecto.NoResultsError, fn -> Reader.get_subscription!(subscription.id) end
     end
 
     test "change_subscription/1 returns a subscription changeset" do
-      subscription = subscription_fixture()
+      valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
+      subscription = subscription_fixture(valid_attrs)
       assert %Ecto.Changeset{} = Reader.change_subscription(subscription)
     end
   end

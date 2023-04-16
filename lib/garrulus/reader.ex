@@ -250,6 +250,24 @@ defmodule Garrulus.Reader do
   end
 
   @doc """
+  Returns list of feeds that a given user is *not* subscribed to
+
+  ### Examples
+
+  iex> list_user_non_subscriptions(user)
+  [%Feed{}, ...]
+
+  """
+  def list_user_non_subscriptions(user) do
+    query = from s in Subscription, where: s.user_id == ^user.id, select: s.feed_id
+
+    Repo.all(
+      from f in Feed,
+        where: f.id not in subquery(query)
+    )
+  end
+
+  @doc """
   Gets a single subscription.
 
   Raises `Ecto.NoResultsError` if the Subscription does not exist.
@@ -299,6 +317,12 @@ defmodule Garrulus.Reader do
     subscription
     |> Subscription.changeset(attrs)
     |> Repo.update()
+  end
+
+  def subscribe(user, feed) do
+    %Subscription{}
+    |> Subscription.changeset(%{user_id: user.id, feed_id: feed.id})
+    |> Repo.insert()
   end
 
   @doc """
