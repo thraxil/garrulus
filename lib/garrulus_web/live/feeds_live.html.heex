@@ -1,5 +1,6 @@
-<section class="overflow-x-auto">
+<section class="overflow-x-auto w-full grid grid-cols-3 gap-4">
 
+  <div class="">
   <.simple_form
     for={@form}
     id="create_feed"
@@ -18,7 +19,9 @@
     <:actions>
       <.button class="w-full">Add Feed</.button>
       </:actions>
-    </.simple_form>
+  </.simple_form>
+  </div>
+  <div class="col-span-2">
   
   <h2>All Feeds</h2>
   <table class="table-auto w-full table-zebra">
@@ -34,5 +37,6 @@
             <.feed feed={feed} />
       <% end %>
     </tbody>
-    </table>
+  </table>
+  </div>
 </section>
