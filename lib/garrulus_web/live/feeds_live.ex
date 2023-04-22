@@ -4,7 +4,7 @@ defmodule GarrulusWeb.FeedsLive do
   alias Garrulus.Reader
 
   def mount(_params, %{"user_token" => user_token}, socket) do
-    user = Accounts.get_user_by_session_token(user_token)
+    _user = Accounts.get_user_by_session_token(user_token)
     changeset = Reader.change_feed(%Reader.Feed{})
 
     socket =
