@@ -33,7 +33,7 @@ defmodule Garrulus.Reader.Worker do
     IO.puts("fetching #{url}")
     headers = [] |> add_etag(etag) |> add_ims(modified)
     options = [recv_timeout: 10000]
-    r = HTTPoison.get(url, headers, options)
+    {:ok, r} = HTTPoison.get(url, headers, options)
     IO.inspect(r)
     r
   end
@@ -78,7 +78,7 @@ defmodule Garrulus.Reader.Worker do
   defp jitter({:ok, feed}) do
     # jitter for up to a minute
     one_minute = 60 * 1000
-    jitter = :rand.uniform(one_minute)
+    _jitter = :rand.uniform(one_minute)
     # sleep(jitter)
     # then just pass through
     {:ok, feed}
@@ -87,5 +87,6 @@ defmodule Garrulus.Reader.Worker do
   defp fetch_feed_data({:error, feed}), do: {:error, feed}
 
   defp fetch_feed_data({:ok, feed}) do
+    fetch_url(feed.url)
   end
 end

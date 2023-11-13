@@ -53,6 +53,7 @@ defmodule Garrulus.MixProject do
       {:httpoison, "~> 2.0"},
       {:timex, "~> 3.7.9"},
       {:bcrypt_elixir, "~> 3.0"},
+      {:fast_rss, "~> 0.5.0"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
