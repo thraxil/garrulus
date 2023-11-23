@@ -21,6 +21,7 @@ defmodule GarrulusWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/fetch", PageController, :fetch_form
   end
 
   scope "/", GarrulusWeb do

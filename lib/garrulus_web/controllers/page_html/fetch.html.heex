@@ -1,0 +1,9 @@
+<form action="/fetch" method="get">
+  <input type="text" name="url" size="70" value={@url} />
+  <input type="submit" value="Go" />
+
+  <pre>
+    <%= @response.status_code %>
+    <%= @response.body %>
+  </pre>
+</form>
