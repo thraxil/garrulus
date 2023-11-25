@@ -170,6 +170,16 @@ defmodule Garrulus.Reader do
     |> Repo.insert()
   end
 
+  def create_entry_if_not_exists(attrs \\ %{}) do
+    case Repo.get_by(Entry, guid: attrs[:guid]) do
+      nil ->
+        create_entry(attrs)
+
+      entry ->
+        {:ok, entry}
+    end
+  end
+
   @doc """
   Updates a entry.
 
