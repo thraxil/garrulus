@@ -1,0 +1,8 @@
+<article class="prose">
+  <%= for ue <- @entries do %>
+      <div class="entry">
+        <h2 class="text-4xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
+        <p><%= raw(ue.entry.description) %></p>
+      </div>
+  <% end %>
+</article>

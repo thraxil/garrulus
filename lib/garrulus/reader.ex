@@ -7,6 +7,7 @@ defmodule Garrulus.Reader do
   alias Garrulus.Repo
 
   alias Garrulus.Reader.Feed
+  alias Garrulus.Reader.UEntry
 
   @doc """
   Returns the list of feeds.
@@ -277,6 +278,23 @@ defmodule Garrulus.Reader do
     |> Repo.preload(:feed)
   end
 
+  def list_user_uentries(user) do
+    Repo.all(
+      from u in UEntry,
+        where: u.user_id == ^user.id
+    )
+    |> Repo.preload(:entry)
+  end
+
+  def list_unread_user_uentries(user) do
+    Repo.all(
+      from u in UEntry,
+        where: u.user_id == ^user.id and u.read == false,
+        order_by: [asc: u.inserted_at]
+    )
+    |> Repo.preload(:entry)
+  end
+
   @doc """
   Returns list of feeds that a given user is *not* subscribed to
 
@@ -381,8 +399,6 @@ defmodule Garrulus.Reader do
   def change_subscription(%Subscription{} = subscription, attrs \\ %{}) do
     Subscription.changeset(subscription, attrs)
   end
-
-  alias Garrulus.Reader.UEntry
 
   @doc """
   Returns the list of uentries.
