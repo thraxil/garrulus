@@ -30,10 +30,9 @@
           <td><%= subscription.feed.last_failed %></td>
           <td><%= subscription.feed.next_fetch %></td>
           <td>
-            <button
-              class="btn btn-blue"
+            <.button
               phx-click="unsubscribe"
-              phx-value-subscription_id={subscription.id}>Unsubscribe</button>
+              phx-value-subscription_id={subscription.id}>Unsubscribe</.button>
           </td>
         </tr>
       <% end %>

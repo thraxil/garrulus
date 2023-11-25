@@ -617,10 +617,10 @@ defmodule GarrulusWeb.CoreComponents do
        <td><b><%= @feed.title %></b></td>
        <td><%= @feed.url %></td>
        <td><%= @feed.last_fetched %></td>
-       <td><button class="btn btn-blue"
+       <td><.button
         phx-click="delete"
         phx-value-id={@feed.id}
-        >delete</button></td>
+        >delete</.button></td>
        </tr>
     """
   end
