@@ -114,17 +114,22 @@ defmodule Garrulus.ReaderTest do
     }
 
     test "list_entries/0 returns all entries" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
       assert Reader.list_entries() == [entry]
     end
 
     test "get_entry!/1 returns the entry with given id" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
       assert Reader.get_entry!(entry.id) == entry
     end
 
     test "create_entry/1 with valid data creates a entry" do
+      feed = feed_fixture()
+
       valid_attrs = %{
+        feed_id: feed.id,
         author: "some author",
         description: "some description",
         guid: "some guid",
@@ -147,7 +152,8 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "update_entry/2 with valid data updates the entry" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
 
       update_attrs = %{
         author: "some updated author",
@@ -168,19 +174,22 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "update_entry/2 with invalid data returns error changeset" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
       assert {:error, %Ecto.Changeset{}} = Reader.update_entry(entry, @invalid_attrs)
       assert entry == Reader.get_entry!(entry.id)
     end
 
     test "delete_entry/1 deletes the entry" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
       assert {:ok, %Entry{}} = Reader.delete_entry(entry)
       assert_raise Ecto.NoResultsError, fn -> Reader.get_entry!(entry.id) end
     end
 
     test "change_entry/1 returns a entry changeset" do
-      entry = entry_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
       assert %Ecto.Changeset{} = Reader.change_entry(entry)
     end
   end
@@ -248,21 +257,31 @@ defmodule Garrulus.ReaderTest do
     alias Garrulus.Reader.UEntry
 
     import Garrulus.ReaderFixtures
+    import Garrulus.AccountsFixtures
 
     @invalid_attrs %{read: nil}
 
     test "list_uentries/0 returns all uentries" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       assert Reader.list_uentries() == [uentry]
     end
 
     test "get_uentry!/1 returns the uentry with given id" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       assert Reader.get_uentry!(uentry.id) == uentry
     end
 
     test "create_uentry/1 with valid data creates a uentry" do
-      valid_attrs = %{read: true}
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      valid_attrs = %{read: true, user_id: user.id, entry_id: entry.id}
 
       assert {:ok, %UEntry{} = uentry} = Reader.create_uentry(valid_attrs)
       assert uentry.read == true
@@ -273,7 +292,10 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "update_uentry/2 with valid data updates the uentry" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       update_attrs = %{read: false}
 
       assert {:ok, %UEntry{} = uentry} = Reader.update_uentry(uentry, update_attrs)
@@ -281,19 +303,28 @@ defmodule Garrulus.ReaderTest do
     end
 
     test "update_uentry/2 with invalid data returns error changeset" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       assert {:error, %Ecto.Changeset{}} = Reader.update_uentry(uentry, @invalid_attrs)
       assert uentry == Reader.get_uentry!(uentry.id)
     end
 
     test "delete_uentry/1 deletes the uentry" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       assert {:ok, %UEntry{}} = Reader.delete_uentry(uentry)
       assert_raise Ecto.NoResultsError, fn -> Reader.get_uentry!(uentry.id) end
     end
 
     test "change_uentry/1 returns a uentry changeset" do
-      uentry = uentry_fixture()
+      user = user_fixture()
+      feed = feed_fixture()
+      entry = entry_fixture(%{feed_id: feed.id})
+      uentry = uentry_fixture(%{user_id: user.id, entry_id: entry.id})
       assert %Ecto.Changeset{} = Reader.change_uentry(uentry)
     end
   end
