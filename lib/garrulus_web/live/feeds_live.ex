@@ -34,6 +34,11 @@ defmodule GarrulusWeb.FeedsLive do
     end
   end
 
+  def handle_event("delete", %{"id" => feed_id}, socket) do
+    feed_id |> Reader.get_feed!() |> Reader.delete_feed()
+    {:noreply, assign(socket, :feeds, Reader.list_feeds())}
+  end
+
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     form = to_form(changeset, as: "feed")
 

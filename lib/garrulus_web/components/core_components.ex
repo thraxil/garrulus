@@ -89,14 +89,6 @@ defmodule GarrulusWeb.CoreComponents do
     """
   end
 
-  @doc """
-  Renders flash notices.
-
-  ## Examples
-
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
-  """
   attr :id, :string, default: "flash", doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
@@ -536,24 +528,6 @@ defmodule GarrulusWeb.CoreComponents do
     """
   end
 
-  @doc """
-  Renders a [Hero Icon](https://heroicons.com).
-
-  Hero icons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid an mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from your `assets/vendor/heroicons` directory and bundled
-  within your compiled app.css by the plugin in your `assets/tailwind.config.js`.
-
-  ## Examples
-
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
-  """
   attr :name, :string, required: true
   attr :class, :string, default: nil
 
@@ -631,9 +605,6 @@ defmodule GarrulusWeb.CoreComponents do
     end
   end
 
-  @doc """
-  Translates the errors for a field from a keyword list of errors.
-  """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
   end
@@ -646,6 +617,10 @@ defmodule GarrulusWeb.CoreComponents do
        <td><b><%= @feed.title %></b></td>
        <td><%= @feed.url %></td>
        <td><%= @feed.last_fetched %></td>
+       <td><button class="btn btn-blue"
+        phx-click="delete"
+        phx-value-id={@feed.id}
+        >delete</button></td>
        </tr>
     """
   end

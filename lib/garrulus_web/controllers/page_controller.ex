@@ -18,20 +18,24 @@ defmodule GarrulusWeb.PageController do
     options = [recv_timeout: 10000]
     {:ok, r} = HTTPoison.get(url, headers, options)
     IO.inspect(r)
+
     case FastRSS.parse_rss(r.body) do
       {:ok, map_of_rss} ->
         IO.inspect(map_of_rss)
+
       {:error, reason} ->
         IO.puts("not RSS")
+
         case FastRSS.parse_atom(r.body) do
           {:ok, map_of_atom} ->
             IO.inspect(map_of_atom)
+
           {:error, reason} ->
             IO.puts("not Atom")
             IO.puts(reason)
         end
     end
-    
+
     render(conn, "fetch.html", layout: false, url: url, response: r)
   end
 end
