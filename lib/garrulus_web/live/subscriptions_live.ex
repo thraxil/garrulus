@@ -25,6 +25,15 @@ defmodule GarrulusWeb.SubscriptionsLive do
     {:noreply, socket |> assign(:feeds, feeds) |> assign(:subscriptions, subscriptions)}
   end
 
+  def handle_event("unsubscribe", %{"subscription_id" => subscription_id}, socket) do
+    %{assigns: %{current_user: user}} = socket
+    subscription = Reader.get_subscription!(subscription_id)
+    Reader.delete_subscription(subscription)
+    feeds = Reader.list_user_non_subscriptions(user)
+    subscriptions = Reader.list_user_subscriptions(user)
+    {:noreply, socket |> assign(:feeds, feeds) |> assign(:subscriptions, subscriptions)}
+  end
+
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     form = to_form(changeset, as: "feed")
 

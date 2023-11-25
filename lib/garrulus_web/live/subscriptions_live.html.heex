@@ -18,6 +18,7 @@
         <th>Last Fetched</th>
         <th>Last Failed</th>
         <th>Next Fetch</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +29,12 @@
           <td><%= subscription.feed.last_fetched %></td>
           <td><%= subscription.feed.last_failed %></td>
           <td><%= subscription.feed.next_fetch %></td>
+          <td>
+            <button
+              class="btn btn-blue"
+              phx-click="unsubscribe"
+              phx-value-subscription_id={subscription.id}>Unsubscribe</button>
+          </td>
         </tr>
       <% end %>
     </tbody>
