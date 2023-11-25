@@ -220,9 +220,9 @@ defmodule Garrulus.ReaderTest do
       assert {:ok, %Subscription{} = _subscription} = Reader.create_subscription(valid_attrs)
     end
 
-    # test "create_subscription/1 with invalid data returns error changeset" do
-    #   assert {:error, %Ecto.Changeset{}} = Reader.create_subscription(@invalid_attrs)
-    # end
+    test "create_subscription/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Reader.create_subscription(@invalid_attrs)
+    end
 
     test "update_subscription/2 with valid data updates the subscription" do
       valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
@@ -232,12 +232,6 @@ defmodule Garrulus.ReaderTest do
       assert {:ok, %Subscription{} = _subscription} =
                Reader.update_subscription(subscription, update_attrs)
     end
-
-    # test "update_subscription/2 with invalid data returns error changeset" do
-    #   subscription = subscription_fixture()
-    #   assert {:error, %Ecto.Changeset{}} = Reader.update_subscription(subscription, @invalid_attrs)
-    #   assert subscription == Reader.get_subscription!(subscription.id)
-    # end
 
     test "delete_subscription/1 deletes the subscription" do
       valid_attrs = %{feed_id: feed_fixture().id, user_id: user_fixture().id}
