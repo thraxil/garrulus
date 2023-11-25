@@ -14,7 +14,7 @@ defmodule Garrulus.Reader.UEntry do
   @doc false
   def changeset(uentry, attrs) do
     uentry
-    |> cast(attrs, [:read])
-    |> validate_required([:read])
+    |> cast(attrs, [:read, :entry_id, :user_id])
+    |> validate_required([:read, :entry_id, :user_id])
   end
 end

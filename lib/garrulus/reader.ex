@@ -152,6 +152,10 @@ defmodule Garrulus.Reader do
   """
   def get_entry!(id), do: Repo.get!(Entry, id)
 
+  def get_entry_feed!(%Entry{} = entry) do
+    Repo.get!(Feed, entry.feed_id) |> Repo.preload(:users)
+  end
+
   @doc """
   Creates a entry.
 
@@ -173,11 +177,25 @@ defmodule Garrulus.Reader do
   def create_entry_if_not_exists(attrs \\ %{}) do
     case Repo.get_by(Entry, guid: attrs[:guid]) do
       nil ->
-        create_entry(attrs)
+        {:ok, entry} = create_entry(attrs)
+        fanout(entry)
 
       entry ->
         {:ok, entry}
     end
+  end
+
+  def fanout(entry) do
+    # for each user subscribed to this entry's feed
+    # create a new uentry
+    feed = get_entry_feed!(entry)
+
+    Enum.each(feed.users, fn user ->
+      create_uentry(%{
+        user_id: user.id,
+        entry_id: entry.id
+      })
+    end)
   end
 
   @doc """

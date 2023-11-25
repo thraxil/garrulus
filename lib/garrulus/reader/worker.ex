@@ -68,17 +68,13 @@ defmodule Garrulus.Reader.Worker do
     |> sanity_check
     |> jitter
     |> fetch_feed_data
-
-    # parse feed
-    # process entries
-    # update status: etag, last_fetched, failure, backoff, etc
-    # schedule next fetch
   end
 
   defp sanity_check(feed) do
     # sanity check: don't refetch if last fetched less than an hour ago
     hour_ago = DateTime.utc_now() |> DateTime.add(-3600, :second)
 
+    # TODO: utc error
     if feed.last_fetched > hour_ago do
       {:error, feed}
     else
