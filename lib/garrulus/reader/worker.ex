@@ -166,11 +166,12 @@ defmodule Garrulus.Reader.Worker do
   defp handle_atom(feed, map_of_atom) do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_atom["entries"], fn entry ->
+      IO.inspect(entry)
       title = entry["title"]["value"]
       guid = entry["id"]
       link = Enum.at(entry["links"], 0)["href"]
       author = Enum.at(entry["authors"], 0)["name"]
-      published = parse_pub_date(entry["updated"])
+      published = entry["updated"]
       description = entry["content"]["value"] || ""
 
       attrs = %{

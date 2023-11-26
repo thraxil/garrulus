@@ -9,7 +9,7 @@ defmodule Garrulus.Repo.Migrations.CreateEntries do
       add :description, :text
       add :author, :string
       add :published, :naive_datetime
-      add :feed_id, references(:feeds, on_delete: :nothing)
+      add :feed_id, references(:feeds, on_delete: :delete_all)
 
       timestamps()
     end

@@ -3,8 +3,8 @@ defmodule Garrulus.Repo.Migrations.CreateSubscriptions do
 
   def change do
     create table(:subscriptions) do
-      add :user_id, references(:users, on_delete: :nothing)
-      add :feed_id, references(:feeds, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :feed_id, references(:feeds, on_delete: :delete_all)
 
       timestamps()
     end
