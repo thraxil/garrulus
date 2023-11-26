@@ -115,7 +115,27 @@ defmodule Garrulus.Reader.Worker do
   end
 
   defp handle_rss(feed, map_of_rss) do
-    map_of_rss
+    # TODO: update feed attributes if those have changed
+    Enum.each(map_of_rss["items"], fn entry ->
+      title = entry["title"] || "no title"
+      link = entry["link"]
+      guid = entry["guid"] || link
+      author = entry["author"] || "no author"
+      published = entry["pub_date"] || DateTime.utc_now()
+      description = entry["description"] || ""
+
+      attrs = %{
+        feed_id: feed.id,
+        title: title,
+        link: link,
+        published: published,
+        guid: guid,
+        author: author,
+        description: description
+      }
+
+      Reader.create_entry_if_not_exists(attrs)
+    end)
   end
 
   defp handle_atom(feed, map_of_atom) do
