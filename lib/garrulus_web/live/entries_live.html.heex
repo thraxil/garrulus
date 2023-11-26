@@ -1,21 +1,35 @@
-<article class="prose">
+<article>
   <%= for read_ue <- @recent_read_entries do %>
-      <div class="entry bg-slate-100 border-solid border-2
-                  border-indigo-100 m-5">
-        <h2 class="text-2xl font-extrabold text-slate-500"><%= read_ue.entry.title %></h2>
+      <div class="entry bg-slate-100 text-slate-400 border-solid border-2
+                  border-indigo-100 m-1">
+        <span class="float-right"><%= read_ue.entry.published %></span>
+        <h2 class="text-1xl font-extrabold text-slate-500"><%= read_ue.entry.title %></h2>
       </div>
   <% end %>
 
   <%= for ue <- @current_entry do %>
-      <div class="entry border-solid border-2 border-indigo-200 m-5">
-        <h2 class="text-4xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
-        <p><%= raw(ue.entry.description) %></p>
+      <div class="entry border-solid border-2 border-indigo-200 m-1"
+         phx-window-keydown="key_event"
+           phx-value-uentry_id={ue.id}
+           >
+          <span class="float-right px-2"><%= ue.entry.published %></span>
+
+          <h2 class="text-1xl font-extrabold dark:text-white
+                     bg-slate-200 px-2
+                     ">
+          <%= ue.entry.title %>
+        </h2>
+        <div class="bg-slate-100 px-2"><%= ue.entry.feed.title %></div>
+        <div class="prose px-2 py-2">
+          <%= raw(ue.entry.description) %>
+        </div>
       </div>
   <% end %>
   
   <%= for ue <- @upcoming_entries do %>
-      <div class="entry border-solid border-2 border-indigo-100 m-2 bg-slate-200">
-        <h2 class="text-3xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
+      <div class="entry border-solid border-2 border-indigo-100 m-1 bg-slate-200">
+        <span class="float-right"><%= ue.entry.published %></span>
+        <h2 class="text-1xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
       </div>
   <% end %>
 </article>

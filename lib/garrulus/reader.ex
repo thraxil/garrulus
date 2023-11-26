@@ -296,7 +296,7 @@ defmodule Garrulus.Reader do
         limit: 1,
         offset: 0
     )
-    |> Repo.preload(:entry)
+    |> Repo.preload([:entry, [entry: :feed]])
   end
 
   def list_unread_user_uentries(user, limit \\ 10) do
