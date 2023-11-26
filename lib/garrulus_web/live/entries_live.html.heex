@@ -1,8 +1,21 @@
 <article class="prose">
-  <%= for ue <- @entries do %>
-      <div class="entry">
+  <%= for read_ue <- @recent_read_entries do %>
+      <div class="entry bg-slate-100 border-solid border-2
+                  border-indigo-100 m-5">
+        <h2 class="text-2xl font-extrabold text-slate-500"><%= read_ue.entry.title %></h2>
+      </div>
+  <% end %>
+
+  <%= for ue <- @current_entry do %>
+      <div class="entry border-solid border-2 border-indigo-200 m-5">
         <h2 class="text-4xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
         <p><%= raw(ue.entry.description) %></p>
+      </div>
+  <% end %>
+  
+  <%= for ue <- @upcoming_entries do %>
+      <div class="entry border-solid border-2 border-indigo-100 m-2 bg-slate-200">
+        <h2 class="text-3xl font-extrabold dark:text-white"><%= ue.entry.title %></h2>
       </div>
   <% end %>
 </article>

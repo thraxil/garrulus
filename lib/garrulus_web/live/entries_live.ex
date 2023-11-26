@@ -10,7 +10,9 @@ defmodule GarrulusWeb.EntriesLive do
       socket
       |> assign(:current_user, Accounts.get_user_by_session_token(user_token))
       |> assign(
-        entries: Reader.list_unread_user_uentries(user),
+        upcoming_entries: Reader.list_unread_user_uentries(user, 2),
+        current_entry: Reader.get_current_user_uentry(user),
+        recent_read_entries: Reader.list_recent_read_user_uentries(user, 2),
         trigger_submit: false,
         check_errors: false
       )

@@ -286,11 +286,36 @@ defmodule Garrulus.Reader do
     |> Repo.preload(:entry)
   end
 
-  def list_unread_user_uentries(user) do
+  # this returns a list because it can be either
+  # one or zero entries
+  def get_current_user_uentry(user) do
     Repo.all(
       from u in UEntry,
         where: u.user_id == ^user.id and u.read == false,
-        order_by: [asc: u.inserted_at]
+        order_by: [asc: u.inserted_at, asc: u.id],
+        limit: 1,
+        offset: 0
+    )
+    |> Repo.preload(:entry)
+  end
+
+  def list_unread_user_uentries(user, limit \\ 10) do
+    Repo.all(
+      from u in UEntry,
+        where: u.user_id == ^user.id and u.read == false,
+        order_by: [asc: u.inserted_at, asc: u.id],
+        limit: ^limit,
+        offset: 1
+    )
+    |> Repo.preload(:entry)
+  end
+
+  def list_recent_read_user_uentries(user, limit \\ 10) do
+    Repo.all(
+      from u in UEntry,
+        where: u.user_id == ^user.id and u.read == true,
+        order_by: [desc: u.updated_at],
+        limit: ^limit
     )
     |> Repo.preload(:entry)
   end
