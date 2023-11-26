@@ -1,6 +1,10 @@
 defmodule Garrulus.Reader.Worker do
   alias Garrulus.Reader
 
+  def fetch_feed(feed) do
+    Task.start(fn -> _fetch_feed(feed) end)
+  end
+
   def start_quote(s) do
     cond do
       String.starts_with?(s, "\"") ->
@@ -49,16 +53,6 @@ defmodule Garrulus.Reader.Worker do
     })
 
     r
-  end
-
-  def fetch_url_async(url) do
-    Task.start(fn ->
-      fetch_url(url)
-    end)
-  end
-
-  def fetch_feed(feed) do
-    Task.start(fn -> _fetch_feed(feed) end)
   end
 
   defp _fetch_feed(feed) do

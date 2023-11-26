@@ -24,8 +24,6 @@ defmodule Garrulus.Reader.Fetcher do
     # 10% jitter
     jitter = :rand.uniform(floor(one_minute / 10))
     Process.send_after(self(), :work, one_minute + jitter)
-
-    # fetch feeds
     # expunge uentries
     # remove duplicate feeds
   end
