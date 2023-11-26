@@ -137,12 +137,17 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
+  defp extract_guid(%{"permalink" => _permalink, "value" => guid}), do: guid
+
+  defp extract_guid(guid), do: guid
+
   defp handle_rss(feed, map_of_rss) do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_rss["items"], fn entry ->
+      IO.inspect(entry)
       title = entry["title"] || "no title"
       link = entry["link"]
-      guid = entry["guid"] || link
+      guid = extract_guid(entry["guid"]) || link
       author = entry["author"] || "no author"
       published = parse_pub_date(entry["pub_date"])
       description = entry["description"] || ""

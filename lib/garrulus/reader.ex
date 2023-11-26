@@ -307,7 +307,7 @@ defmodule Garrulus.Reader do
         limit: ^limit,
         offset: 1
     )
-    |> Repo.preload(:entry)
+    |> Repo.preload([:entry, [entry: :feed]])
   end
 
   def count_unread_user_uentries(user) do
