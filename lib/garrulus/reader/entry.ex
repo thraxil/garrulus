@@ -20,6 +20,6 @@ defmodule Garrulus.Reader.Entry do
   def changeset(entry, attrs) do
     entry
     |> cast(attrs, [:guid, :title, :link, :description, :author, :published, :feed_id])
-    |> validate_required([:guid, :title, :link, :description, :author, :published, :feed_id])
+    |> validate_required([:guid, :title, :link, :published, :feed_id])
   end
 end

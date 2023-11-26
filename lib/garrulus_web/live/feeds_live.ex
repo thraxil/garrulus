@@ -27,6 +27,8 @@ defmodule GarrulusWeb.FeedsLive do
 
     case Reader.create_feed(feed_params) do
       {:ok, feed} ->
+        %{assigns: %{current_user: user}} = socket
+        Reader.subscribe(user, feed)
         {:noreply, assign(socket, :feeds, [feed | socket.assigns.feeds])}
 
       {:error, changeset} ->

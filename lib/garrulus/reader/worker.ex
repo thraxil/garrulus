@@ -153,7 +153,7 @@ defmodule Garrulus.Reader.Worker do
       link = Enum.at(entry["links"], 0)["href"]
       author = Enum.at(entry["authors"], 0)["name"]
       published = entry["updated"]
-      description = entry["content"]["value"]
+      description = entry["content"]["value"] || ""
 
       attrs = %{
         feed_id: feed.id,
