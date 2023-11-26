@@ -119,6 +119,24 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
+  defp parse_pub_date(nil), do: DateTime.utc_now()
+
+  defp parse_pub_date(pub_date) do
+    case DateTime.from_iso8601(pub_date) do
+      {:ok, dt} ->
+        dt
+
+      {:error, _reason} ->
+        case Timex.parse(pub_date, "{RFC1123}") do
+          {:ok, dt} ->
+            dt
+
+          {:error, _reason} ->
+            DateTime.utc_now()
+        end
+    end
+  end
+
   defp handle_rss(feed, map_of_rss) do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_rss["items"], fn entry ->
@@ -126,7 +144,7 @@ defmodule Garrulus.Reader.Worker do
       link = entry["link"]
       guid = entry["guid"] || link
       author = entry["author"] || "no author"
-      published = entry["pub_date"] || DateTime.utc_now()
+      published = parse_pub_date(entry["pub_date"])
       description = entry["description"] || ""
 
       attrs = %{
@@ -152,7 +170,7 @@ defmodule Garrulus.Reader.Worker do
       guid = entry["id"]
       link = Enum.at(entry["links"], 0)["href"]
       author = Enum.at(entry["authors"], 0)["name"]
-      published = entry["updated"]
+      published = parse_pub_date(entry["updated"])
       description = entry["content"]["value"] || ""
 
       attrs = %{
