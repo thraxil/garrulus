@@ -5,7 +5,7 @@ defmodule Garrulus.Reader.Worker do
     Task.start(fn -> _fetch_feed(feed) end)
   end
 
-  def start_quote(s) do
+  defp start_quote(s) do
     cond do
       String.starts_with?(s, "\"") ->
         s
@@ -15,7 +15,7 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
-  def end_quote(s) do
+  defp end_quote(s) do
     cond do
       String.ends_with?(s, "\"") ->
         s
@@ -25,15 +25,15 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
-  def ensure_quoted(s) do
+  defp ensure_quoted(s) do
     s |> String.trim() |> start_quote |> end_quote
   end
 
-  def add_etag(headers, nil), do: headers
-  def add_etag(headers, etag), do: [{"ETag", ensure_quoted(etag)} | headers]
+  defp add_etag(headers, nil), do: headers
+  defp add_etag(headers, etag), do: [{"ETag", ensure_quoted(etag)} | headers]
 
-  def add_ims(headers, nil), do: headers
-  def add_ims(headers, modified), do: [{"If-Modified-Since", modified} | headers]
+  defp add_ims(headers, nil), do: headers
+  defp add_ims(headers, modified), do: [{"If-Modified-Since", modified} | headers]
 
   def fetch_url(feed) do
     url = feed.url
