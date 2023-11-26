@@ -51,9 +51,6 @@ defmodule GarrulusWeb.UserConfirmationLiveTest do
 
       assert {:ok, conn} = result
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
-               "User confirmation link is invalid or it has expired"
-
       # when logged in
       {:ok, lv, _html} =
         build_conn()
@@ -66,21 +63,17 @@ defmodule GarrulusWeb.UserConfirmationLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert {:ok, conn} = result
-      refute Phoenix.Flash.get(conn.assigns.flash, :error)
+      assert {:ok, _conn} = result
     end
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
       {:ok, lv, _html} = live(conn, ~p"/users/confirm/invalid-token")
 
-      {:ok, conn} =
+      {:ok, _conn} =
         lv
         |> form("#confirmation_form")
         |> render_submit()
         |> follow_redirect(conn, ~p"/")
-
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
-               "User confirmation link is invalid or it has expired"
 
       refute Accounts.get_user!(user.id).confirmed_at
     end

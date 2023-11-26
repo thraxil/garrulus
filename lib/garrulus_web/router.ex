@@ -19,15 +19,13 @@ defmodule GarrulusWeb.Router do
 
   scope "/", GarrulusWeb do
     pipe_through :browser
-
-    get "/", PageController, :home
     get "/fetch", PageController, :fetch_form
   end
 
   scope "/", GarrulusWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/entries", EntriesLive, :index
+    live "/", EntriesLive, :index
     live "/feeds", FeedsLive, :index
     live "/subscriptions", SubscriptionsLive, :index
   end
