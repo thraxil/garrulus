@@ -310,6 +310,14 @@ defmodule Garrulus.Reader do
     |> Repo.preload(:entry)
   end
 
+  def count_unread_user_uentries(user) do
+    Repo.one(
+      from u in UEntry,
+        where: u.user_id == ^user.id and u.read == false,
+        select: count(u.id)
+    )
+  end
+
   def list_recent_read_user_uentries(user, limit \\ 10) do
     Repo.all(
       from u in UEntry,

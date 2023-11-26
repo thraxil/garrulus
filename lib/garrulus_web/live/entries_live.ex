@@ -11,6 +11,7 @@ defmodule GarrulusWeb.EntriesLive do
       |> assign(:current_user, Accounts.get_user_by_session_token(user_token))
       |> assign(
         upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
         recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
         trigger_submit: false,
@@ -28,7 +29,8 @@ defmodule GarrulusWeb.EntriesLive do
     socket =
       socket
       |> assign(
-        upcoming_entries: Reader.list_unread_user_uentries(user, 2),
+        upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
         recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
         trigger_submit: false,
@@ -46,6 +48,7 @@ defmodule GarrulusWeb.EntriesLive do
       socket
       |> assign(
         upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
         recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
         trigger_submit: false,
@@ -64,6 +67,7 @@ defmodule GarrulusWeb.EntriesLive do
       socket
       |> assign(
         upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
         recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
         trigger_submit: false,
