@@ -1,8 +1,7 @@
 <div class="px-6 fixed bottom-0 left-0 bg-slate-200 w-full"><%= @unread_entries_count %> unread entries</div>
 <article>
   <%= for read_ue <- @recent_read_entries do %>
-      <div class="entry bg-slate-100 text-slate-400 border-solid border-2
-                  border-indigo-100 m-1">
+      <div class="entry bg-slate-100 text-slate-400 m-1">
         <span class="float-right"><%= read_ue.entry.published %></span>
         <h2 class="text-1xl font-extrabold text-slate-500"><%= read_ue.entry.title %></h2>
       </div>
@@ -28,10 +27,9 @@
   <% end %>
   
   <%= for ue <- @upcoming_entries do %>
-      <div class="entry border-solid border-2 border-indigo-100 m-1 bg-slate-200">
+      <div class="entry m-1 bg-slate-200">
         <span class="float-right"><%= ue.entry.published %></span>
-        <h2 class="text-1xl font-extrabold
-        dark:text-white"><%= ue.entry.feed.title %>: <%= ue.entry.title %></h2>
+        <h2 class="text-1xl dark:text-white"><%= ue.entry.feed.title %>: <%= ue.entry.title %></h2>
       </div>
   <% end %>
 </article>

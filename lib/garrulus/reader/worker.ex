@@ -145,10 +145,10 @@ defmodule Garrulus.Reader.Worker do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_rss["items"], fn entry ->
       IO.inspect(entry)
-      title = entry["title"] || "no title"
-      link = entry["link"]
-      guid = extract_guid(entry["guid"]) || link
-      author = entry["author"] || "no author"
+      title = String.slice(entry["title"] || "no title", 0..254)
+      link = String.slice(entry["link"], 0..254)
+      guid = String.slice(extract_guid(entry["guid"]) || link, 0..254)
+      author = String.slice(entry["author"] || "no author", 0..254)
       published = parse_pub_date(entry["pub_date"])
       description = entry["description"] || ""
 
@@ -172,10 +172,10 @@ defmodule Garrulus.Reader.Worker do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_atom["entries"], fn entry ->
       IO.inspect(entry)
-      title = entry["title"]["value"]
-      guid = entry["id"]
-      link = Enum.at(entry["links"], 0)["href"]
-      author = Enum.at(entry["authors"], 0)["name"]
+      title = String.slice(entry["title"]["value"], 0..254) || "no title"
+      guid = String.slice(entry["id"], 0..254)
+      link = String.slice(Enum.at(entry["links"], 0)["href"], 0..254)
+      author = String.slice(Enum.at(entry["authors"], 0)["name"] || "no author", 0..254)
       published = entry["updated"]
       description = entry["content"]["value"] || ""
 
@@ -199,6 +199,8 @@ defmodule Garrulus.Reader.Worker do
     backoff_schedule = [1, 2, 5, 10, 20, 50, 100]
     now = DateTime.utc_now()
     next_fetch = Timex.shift(now, hours: Enum.at(backoff_schedule, feed.backoff))
+    jitter = :rand.uniform(60) - 30
+    next_fetch = Timex.shift(next_fetch, minutes: jitter)
 
     new_backoff = min(feed.backoff + 1, length(backoff_schedule) - 1)
 
@@ -213,6 +215,9 @@ defmodule Garrulus.Reader.Worker do
   defp schedule_next_fetch({:ok, feed}) do
     now = DateTime.utc_now()
     next_fetch = Timex.shift(now, hours: 1)
+    jitter = :rand.uniform(60) - 30
+    next_fetch = Timex.shift(next_fetch, minutes: jitter)
+
     Garrulus.Reader.update_feed(feed, %{last_fetched: now, next_fetch: next_fetch, backoff: 0})
   end
 end
