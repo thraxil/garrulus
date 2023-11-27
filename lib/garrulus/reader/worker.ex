@@ -47,11 +47,10 @@ defmodule Garrulus.Reader.Worker do
   end
 
   defp sanity_check(feed) do
-    # sanity check: don't refetch if last fetched less than an hour ago
-    hour_ago = DateTime.utc_now() |> DateTime.add(-3600, :second)
+    # sanity check: don't refetch if last fetched less than 30 min ago
+    cutoff = DateTime.utc_now() |> DateTime.add(-1800, :second)
 
-    # TODO: utc error
-    if feed.last_fetched > hour_ago do
+    if feed.last_fetched |> DateTime.from_naive!("Etc/UTC") > cutoff do
       {:error, feed}
     else
       {:ok, feed}
@@ -69,7 +68,7 @@ defmodule Garrulus.Reader.Worker do
     {:ok, feed}
   end
 
-  def fetch_url({:error, feed}), do: {:error, feed}
+  def fetch_url({:error, feed}), do: {:error, feed, nil}
 
   def fetch_url({:ok, feed}) do
     url = feed.url
@@ -99,7 +98,7 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
-  defp parse_feed_data({:error, feed, r}), do: {:error, feed, r}
+  defp parse_feed_data({:error, feed, r}), do: {:error, feed}
 
   defp parse_feed_data({:ok, feed, r}) do
     case FastRSS.parse_rss(r.body) do

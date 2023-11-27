@@ -26,6 +26,18 @@
         </div>
       </div>
   <% end %>
+
+  <%= if length(@current_entry) == 0 do %>
+  <div class="entry border-solid border-2 border-indigo-200 m-1
+              bg-slate-800
+              text-white">
+    <p class="prose text-white">
+      Congratulations, you've read the entire internet. Now go for a
+      walk.
+    </p>
+  </div>
+  <% end %>
+
   
   <%= for ue <- @upcoming_entries do %>
       <div class="entry m-1 bg-slate-200">
