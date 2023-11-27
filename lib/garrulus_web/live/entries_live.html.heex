@@ -11,6 +11,7 @@
       <div class="entry border-solid border-2 border-indigo-200 m-1"
          phx-window-keydown="key_event"
            phx-value-uentry_id={ue.id}
+           phx-throttle="500"
            >
           <span class="float-right px-2"><%= ue.entry.published %></span>
 
