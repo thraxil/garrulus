@@ -615,6 +615,7 @@ defmodule GarrulusWeb.CoreComponents do
     ~H"""
     <tr>
        <td><b><%= @feed.title %></b></td>
+       <td><%= @feed.backoff %></td>
        <td><%= @feed.url %></td>
        <td><%= @feed.last_fetched %></td>
        <td><.button
