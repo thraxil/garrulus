@@ -98,7 +98,7 @@ defmodule Garrulus.Reader.Worker do
     end
   end
 
-  defp parse_feed_data({:error, feed, r}), do: {:error, feed}
+  defp parse_feed_data({:error, feed, _r}), do: {:error, feed}
 
   defp parse_feed_data({:ok, feed, r}) do
     case FastRSS.parse_rss(r.body) do

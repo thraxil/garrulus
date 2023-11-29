@@ -5,8 +5,10 @@ defmodule Garrulus.Reader do
 
   import Ecto.Query, warn: false
   alias Garrulus.Repo
+  alias Garrulus.Reader.Entry
 
   alias Garrulus.Reader.Feed
+  alias Garrulus.Reader.Subscription
   alias Garrulus.Reader.UEntry
 
   @doc """
@@ -106,7 +108,23 @@ defmodule Garrulus.Reader do
 
   """
   def delete_feed(%Feed{} = feed) do
+    delete_feed_subscriptions(feed)
+    delete_feed_entries(feed)
     Repo.delete(feed)
+  end
+
+  def delete_feed_subscriptions(feed) do
+    Repo.delete_all(
+      from s in Subscription,
+        where: s.feed_id == ^feed.id
+    )
+  end
+
+  def delete_feed_entries(feed) do
+    Repo.delete_all(
+      from e in Entry,
+        where: e.feed_id == ^feed.id
+    )
   end
 
   @doc """
@@ -121,8 +139,6 @@ defmodule Garrulus.Reader do
   def change_feed(%Feed{} = feed, attrs \\ %{}) do
     Feed.changeset(feed, attrs)
   end
-
-  alias Garrulus.Reader.Entry
 
   @doc """
   Returns the list of entries.
@@ -245,8 +261,6 @@ defmodule Garrulus.Reader do
   def change_entry(%Entry{} = entry, attrs \\ %{}) do
     Entry.changeset(entry, attrs)
   end
-
-  alias Garrulus.Reader.Subscription
 
   @doc """
   Returns the list of subscriptions.
