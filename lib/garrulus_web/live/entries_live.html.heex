@@ -1,4 +1,7 @@
-<div class="px-6 fixed bottom-0 left-0 bg-slate-200 w-full"><%= @unread_entries_count %> unread entries</div>
+<div class="px-6 fixed bottom-0 left-0 bg-slate-200 w-full border-t-2 border-blue-900">
+  <%= @unread_entries_count %> unread entries
+</div>
+
 <article>
   <%= for read_ue <- @recent_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
