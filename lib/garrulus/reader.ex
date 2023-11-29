@@ -300,6 +300,14 @@ defmodule Garrulus.Reader do
     |> Repo.preload(:entry)
   end
 
+  def list_feed_entries(feed) do
+    Repo.all(
+      from e in Entry,
+        where: e.feed_id == ^feed.id,
+        order_by: [desc: e.published, desc: e.id]
+    )
+  end
+
   # this returns a list because it can be either
   # one or zero entries
   def get_current_user_uentry(user) do

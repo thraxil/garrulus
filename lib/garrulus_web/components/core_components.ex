@@ -613,16 +613,6 @@ defmodule GarrulusWeb.CoreComponents do
 
   def feed(assigns) do
     ~H"""
-    <tr>
-       <td><b><%= @feed.title %></b></td>
-       <td><%= @feed.backoff %></td>
-       <td><%= @feed.url %></td>
-       <td><%= @feed.last_fetched %></td>
-       <td><.button
-        phx-click="delete"
-        phx-value-id={@feed.id}
-        >delete</.button></td>
-       </tr>
     """
   end
 end

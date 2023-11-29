@@ -27,6 +27,7 @@ defmodule GarrulusWeb.Router do
 
     live "/", EntriesLive, :index
     live "/feeds", FeedsLive, :index
+    live "/feeds/:feed_id", FeedLive, :index
     live "/subscriptions", SubscriptionsLive, :index
   end
 

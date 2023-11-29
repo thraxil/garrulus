@@ -36,8 +36,21 @@
     </thead>
     <tbody>
       <%= for feed <- @feeds do %>
-            <.feed feed={feed} />
-      <% end %>
+          <tr>
+            <td>
+              <b>
+                <.link href={~p"/feeds/#{feed}"}><%= feed.title %></.link>
+              </b>
+            </td>
+            <td><%= feed.backoff %></td>
+            <td><%= feed.url %></td>
+            <td><%= feed.last_fetched %></td>
+            <td><.button
+                  phx-click="delete"
+                  phx-value-id={feed.id}
+                  >delete</.button></td>
+          </tr>
+          <% end %>
     </tbody>
   </table>
 
