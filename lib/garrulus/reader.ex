@@ -77,6 +77,19 @@ defmodule Garrulus.Reader do
     |> Repo.insert()
   end
 
+  def get_or_create_feed(attrs \\ %{}) do
+    # use the feed's url as the unique identifier
+    # technically it *should* be the guid,
+    # but the URL is what a user will enter
+    case Repo.get_by(Feed, url: attrs["url"]) do
+      nil ->
+        create_feed(attrs)
+
+      feed ->
+        {:ok, feed}
+    end
+  end
+
   @doc """
   Updates a feed.
 
@@ -421,9 +434,16 @@ defmodule Garrulus.Reader do
   end
 
   def subscribe(user, feed) do
-    %Subscription{}
-    |> Subscription.changeset(%{user_id: user.id, feed_id: feed.id})
-    |> Repo.insert()
+    # if there's already a subscription, don't create a new one
+    case Repo.get_by(Subscription, user_id: user.id, feed_id: feed.id) do
+      nil ->
+        %Subscription{}
+        |> Subscription.changeset(%{user_id: user.id, feed_id: feed.id})
+        |> Repo.insert()
+
+      _ ->
+        {:ok, %Subscription{}}
+    end
   end
 
   @doc """

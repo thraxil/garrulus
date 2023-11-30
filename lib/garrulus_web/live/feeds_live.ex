@@ -23,13 +23,14 @@ defmodule GarrulusWeb.FeedsLive do
     feed_params = Map.put(feed_params, "backoff", 0)
     feed_params = Map.put(feed_params, "next_fetch", DateTime.utc_now())
     feed_params = Map.put(feed_params, "etag", "dummy")
-    feed_params = Map.put(feed_params, "guid", feed_params["url"])
+    feed_params = Map.put(feed_params, "guid", String.trim(feed_params["url"]))
+    feed_params = Map.put(feed_params, "url", String.trim(feed_params["url"]))
 
-    case Reader.create_feed(feed_params) do
+    case Reader.get_or_create_feed(feed_params) do
       {:ok, feed} ->
         %{assigns: %{current_user: user}} = socket
         Reader.subscribe(user, feed)
-        {:noreply, assign(socket, :feeds, [feed | socket.assigns.feeds])}
+        {:noreply, assign(socket, :feeds, Reader.list_feeds())}
 
       {:error, changeset} ->
         {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
