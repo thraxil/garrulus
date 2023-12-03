@@ -209,6 +209,7 @@ defmodule Garrulus.Reader.Worker do
       last_failed: now,
       backoff: new_backoff
     })
+    Garrulus.Reader.log_fetch(feed, :failed, 200, "", 0)
   end
 
   defp schedule_next_fetch({:ok, feed}) do
@@ -218,5 +219,6 @@ defmodule Garrulus.Reader.Worker do
     next_fetch = Timex.shift(next_fetch, minutes: jitter)
 
     Garrulus.Reader.update_feed(feed, %{last_fetched: now, next_fetch: next_fetch, backoff: 0})
+    Garrulus.Reader.log_fetch(feed, :ok, 200, "", 0)
   end
 end

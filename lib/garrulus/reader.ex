@@ -10,6 +10,7 @@ defmodule Garrulus.Reader do
   alias Garrulus.Reader.Feed
   alias Garrulus.Reader.Subscription
   alias Garrulus.Reader.UEntry
+  alias Garrulus.Reader.FetchLog
 
   @doc """
   Returns the list of feeds.
@@ -106,6 +107,18 @@ defmodule Garrulus.Reader do
     feed
     |> Feed.changeset(attrs)
     |> Repo.update()
+  end
+
+  def log_fetch(feed, status, response_status_code, response_body, new_entries) do
+    Repo.insert(
+      %FetchLog{
+        feed_id: feed.id,
+        status: status,
+        response_status_code: response_status_code,
+        response_body: response_body,
+        new_entries: new_entries
+      }
+    )
   end
 
   @doc """

@@ -13,6 +13,7 @@ defmodule Garrulus.Reader.Feed do
     field :url, :string
 
     has_many :entries, Garrulus.Reader.Entry
+    has_many :logs, Garrulus.Reader.FetchLog
     many_to_many :users, Garrulus.Accounts.User, join_through: Garrulus.Reader.Subscription
 
     timestamps()
