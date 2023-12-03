@@ -110,15 +110,13 @@ defmodule Garrulus.Reader do
   end
 
   def log_fetch(feed, status, response_status_code, response_body, new_entries) do
-    Repo.insert(
-      %FetchLog{
-        feed_id: feed.id,
-        status: status,
-        response_status_code: response_status_code,
-        response_body: response_body,
-        new_entries: new_entries
-      }
-    )
+    Repo.insert(%FetchLog{
+      feed_id: feed.id,
+      status: status,
+      response_status_code: response_status_code,
+      response_body: response_body,
+      new_entries: new_entries
+    })
   end
 
   @doc """

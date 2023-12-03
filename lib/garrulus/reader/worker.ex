@@ -51,26 +51,26 @@ defmodule Garrulus.Reader.Worker do
     cutoff = DateTime.utc_now() |> DateTime.add(-1800, :second)
 
     if feed.last_fetched |> DateTime.from_naive!("Etc/UTC") > cutoff do
-      {:error, feed}
+      {:error, feed, %{:status => :skipped}}
     else
-      {:ok, feed}
+      {:ok, feed, %{}}
     end
   end
 
-  defp jitter({:error, feed}), do: {:error, feed}
+  defp jitter({:error, feed, log}), do: {:error, feed, log}
 
-  defp jitter({:ok, feed}) do
+  defp jitter({:ok, feed, log}) do
     # jitter for up to a minute
     one_minute = 60 * 1000
     jitter = :rand.uniform(one_minute)
     :timer.sleep(jitter)
     # then just pass through
-    {:ok, feed}
+    {:ok, feed, log}
   end
 
-  def fetch_url({:error, feed}), do: {:error, feed, nil}
+  def fetch_url({:error, feed, log}), do: {:error, feed, nil, log}
 
-  def fetch_url({:ok, feed}) do
+  def fetch_url({:ok, feed, log}) do
     url = feed.url
     etag = feed.etag
     IO.puts("fetching #{url}")
@@ -81,8 +81,6 @@ defmodule Garrulus.Reader.Worker do
 
     case HTTPoison.get(url, headers, options) do
       {:ok, r} ->
-        IO.puts(r.status_code)
-
         {"ETag", etag} = List.keyfind(r.headers, "ETag", 0, {"ETag", feed.etag})
 
         Garrulus.Reader.update_feed(feed, %{
@@ -90,30 +88,35 @@ defmodule Garrulus.Reader.Worker do
           etag: etag
         })
 
-        {:ok, feed, r}
+        {:ok, feed, r,
+         Map.merge(log, %{
+           :status => :ok,
+           :response_status_code => r.status_code,
+           :response_body => r.body
+         })}
 
       _ ->
         IO.puts("error fetching #{url}")
-        {:error, feed, nil}
+        {:error, feed, nil, Map.merge(log, %{:status => :failed})}
     end
   end
 
-  defp parse_feed_data({:error, feed, _r}), do: {:error, feed}
+  defp parse_feed_data({:error, feed, _r, log}), do: {:error, feed, log}
 
-  defp parse_feed_data({:ok, feed, r}) do
+  defp parse_feed_data({:ok, feed, r, log}) do
     case FastRSS.parse_rss(r.body) do
       {:ok, map_of_rss} ->
-        handle_rss(feed, map_of_rss)
+        handle_rss(feed, map_of_rss, log)
 
       {:error, _reason} ->
         case FastRSS.parse_atom(r.body) do
           {:ok, map_of_atom} ->
-            handle_atom(feed, map_of_atom)
+            handle_atom(feed, map_of_atom, log)
 
           {:error, reason} ->
             IO.puts("not Atom either")
             IO.puts(reason)
-            {:error, feed}
+            {:error, feed, Map.merge(log, %{:status => :failed})}
         end
     end
   end
@@ -140,10 +143,9 @@ defmodule Garrulus.Reader.Worker do
 
   defp extract_guid(guid), do: guid
 
-  defp handle_rss(feed, map_of_rss) do
+  defp handle_rss(feed, map_of_rss, log) do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_rss["items"], fn entry ->
-      IO.inspect(entry)
       title = String.slice(entry["title"] || "no title", 0..254)
       link = String.slice(entry["link"], 0..254)
       guid = String.slice(extract_guid(entry["guid"]) || link, 0..254)
@@ -164,13 +166,12 @@ defmodule Garrulus.Reader.Worker do
       Reader.create_entry_if_not_exists(attrs)
     end)
 
-    {:ok, feed}
+    {:ok, feed, log}
   end
 
-  defp handle_atom(feed, map_of_atom) do
+  defp handle_atom(feed, map_of_atom, log) do
     # TODO: update feed attributes if those have changed
     Enum.each(map_of_atom["entries"], fn entry ->
-      IO.inspect(entry)
       title = String.slice(entry["title"]["value"], 0..254) || "no title"
       guid = String.slice(entry["id"], 0..254)
       link = String.slice(Enum.at(entry["links"], 0)["href"], 0..254)
@@ -191,10 +192,10 @@ defmodule Garrulus.Reader.Worker do
       Reader.create_entry_if_not_exists(attrs)
     end)
 
-    {:ok, feed}
+    {:ok, feed, log}
   end
 
-  defp schedule_next_fetch({:error, feed}) do
+  defp schedule_next_fetch({:error, feed, log}) do
     backoff_schedule = [1, 2, 5, 10, 20, 50, 100]
     now = DateTime.utc_now()
     next_fetch = Timex.shift(now, hours: Enum.at(backoff_schedule, feed.backoff))
@@ -209,16 +210,30 @@ defmodule Garrulus.Reader.Worker do
       last_failed: now,
       backoff: new_backoff
     })
-    Garrulus.Reader.log_fetch(feed, :failed, 200, "", 0)
+
+    Garrulus.Reader.log_fetch(
+      feed,
+      Map.get(log, :status, :error),
+      Map.get(log, :response_status_code, 200),
+      Map.get(log, :response_body, ""),
+      Map.get(log, :new_entries, 0)
+    )
   end
 
-  defp schedule_next_fetch({:ok, feed}) do
+  defp schedule_next_fetch({:ok, feed, log}) do
     now = DateTime.utc_now()
     next_fetch = Timex.shift(now, hours: 1)
     jitter = :rand.uniform(60) - 30
     next_fetch = Timex.shift(next_fetch, minutes: jitter)
 
     Garrulus.Reader.update_feed(feed, %{last_fetched: now, next_fetch: next_fetch, backoff: 0})
-    Garrulus.Reader.log_fetch(feed, :ok, 200, "", 0)
+
+    Garrulus.Reader.log_fetch(
+      feed,
+      Map.get(log, :status, :ok),
+      Map.get(log, :response_status_code, 200),
+      Map.get(log, :response_body, ""),
+      Map.get(log, :new_entries, 0)
+    )
   end
 end
