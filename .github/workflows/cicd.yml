@@ -86,10 +86,12 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.mix-test.result == 'success'
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
-        - uses: superfly/flyctl-actions@1.1
-          with:
-            args: "deploy"
+        - uses: actions/checkout@v3
+        - uses: superfly/flyctl-actions/setup-flyctl@master
+        - run: flyctl deploy --remote-only
+          env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 #        - name: sentry release
 #          uses: juankaram/sentry-release@master
 #          env:
