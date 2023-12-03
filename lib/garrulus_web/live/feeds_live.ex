@@ -18,7 +18,7 @@ defmodule GarrulusWeb.FeedsLive do
 
   def handle_event("create", %{"feed" => feed_params}, socket) do
     # some defaults
-    feed_params = Map.put(feed_params, "last_fetched", DateTime.utc_now())
+    feed_params = Map.put(feed_params, "last_fetched", Timex.shift(DateTime.utc_now(), hours: -1))
     feed_params = Map.put(feed_params, "last_failed", DateTime.utc_now())
     feed_params = Map.put(feed_params, "backoff", 0)
     feed_params = Map.put(feed_params, "next_fetch", DateTime.utc_now())
