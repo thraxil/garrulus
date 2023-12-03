@@ -220,9 +220,10 @@ defmodule Garrulus.Reader do
       nil ->
         {:ok, entry} = create_entry(attrs)
         fanout(entry)
+        {:ok, entry, 1}
 
       entry ->
-        {:ok, entry}
+        {:ok, entry, 0}
     end
   end
 

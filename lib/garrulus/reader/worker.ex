@@ -145,54 +145,62 @@ defmodule Garrulus.Reader.Worker do
 
   defp handle_rss(feed, map_of_rss, log) do
     # TODO: update feed attributes if those have changed
-    Enum.each(map_of_rss["items"], fn entry ->
-      title = String.slice(entry["title"] || "no title", 0..254)
-      link = String.slice(entry["link"], 0..254)
-      guid = String.slice(extract_guid(entry["guid"]) || link, 0..254)
-      author = String.slice(entry["author"] || "no author", 0..254)
-      published = parse_pub_date(entry["pub_date"])
-      description = entry["description"] || ""
+    created =
+      Enum.sum(
+        Enum.map(map_of_rss["items"], fn entry ->
+          title = String.slice(entry["title"] || "no title", 0..254)
+          link = String.slice(entry["link"], 0..254)
+          guid = String.slice(extract_guid(entry["guid"]) || link, 0..254)
+          author = String.slice(entry["author"] || "no author", 0..254)
+          published = parse_pub_date(entry["pub_date"])
+          description = entry["description"] || ""
 
-      attrs = %{
-        feed_id: feed.id,
-        title: title,
-        link: link,
-        published: published,
-        guid: guid,
-        author: author,
-        description: description
-      }
+          attrs = %{
+            feed_id: feed.id,
+            title: title,
+            link: link,
+            published: published,
+            guid: guid,
+            author: author,
+            description: description
+          }
 
-      Reader.create_entry_if_not_exists(attrs)
-    end)
+          {:ok, _, cnt} = Reader.create_entry_if_not_exists(attrs)
+          cnt
+        end)
+      )
 
-    {:ok, feed, log}
+    {:ok, feed, Map.merge(log, %{new_entries: created})}
   end
 
   defp handle_atom(feed, map_of_atom, log) do
     # TODO: update feed attributes if those have changed
-    Enum.each(map_of_atom["entries"], fn entry ->
-      title = String.slice(entry["title"]["value"], 0..254) || "no title"
-      guid = String.slice(entry["id"], 0..254)
-      link = String.slice(Enum.at(entry["links"], 0)["href"], 0..254)
-      author = String.slice(Enum.at(entry["authors"], 0)["name"] || "no author", 0..254)
-      published = entry["updated"]
-      description = entry["content"]["value"] || ""
+    created =
+      Enum.sum(
+        Enum.map(map_of_atom["entries"], fn entry ->
+          title = String.slice(entry["title"]["value"], 0..254) || "no title"
+          guid = String.slice(entry["id"], 0..254)
+          link = String.slice(Enum.at(entry["links"], 0)["href"], 0..254)
+          author = String.slice(Enum.at(entry["authors"], 0)["name"] || "no author", 0..254)
+          published = entry["updated"]
+          description = entry["content"]["value"] || ""
 
-      attrs = %{
-        feed_id: feed.id,
-        title: title,
-        link: link,
-        published: published,
-        guid: guid,
-        author: author,
-        description: description
-      }
+          attrs = %{
+            feed_id: feed.id,
+            title: title,
+            link: link,
+            published: published,
+            guid: guid,
+            author: author,
+            description: description
+          }
 
-      Reader.create_entry_if_not_exists(attrs)
-    end)
+          {:ok, _, cnt} = Reader.create_entry_if_not_exists(attrs)
+          cnt
+        end)
+      )
 
-    {:ok, feed, log}
+    {:ok, feed, Map.merge(log, %{new_entries: created})}
   end
 
   defp schedule_next_fetch({:error, feed, log}) do
