@@ -372,7 +372,7 @@ defmodule Garrulus.Reader do
         order_by: [desc: u.updated_at],
         limit: ^limit
     )
-    |> Repo.preload(:entry)
+    |> Repo.preload([:entry, [entry: :feed]])
   end
 
   @doc """
