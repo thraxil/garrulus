@@ -25,7 +25,9 @@
                      ">
             <a href={ue.entry.link}><%= ue.entry.title %></a>
         </h2>
-        <div class="bg-slate-100 px-2"><%= ue.entry.feed.title %></div>
+          <div class="bg-slate-100 px-2">
+            <.link href={~p"/feeds/#{ue.entry.feed}"}><%= ue.entry.feed.title %></.link>
+          </div>
         <div class="prose px-2 py-2">
           <%= raw(ue.entry.description) %>
         </div>
