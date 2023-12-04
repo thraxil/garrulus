@@ -8,7 +8,7 @@
   <%= for read_ue <- @recent_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
         <span class="float-right"><%= read_ue.entry.published %></span>
-        <h2 class="text-1xl font-extrabold text-slate-500"><%= read_ue.entry.title %></h2>
+        <h2 class="text-1xl font-extrabold text-slate-500"><a href={read_ue.entry.link}><%= read_ue.entry.title %></a></h2>
       </div>
   <% end %>
 
