@@ -80,4 +80,9 @@ defmodule GarrulusWeb.EntriesLive do
   def handle_event("key_event", %{"key" => _}, socket) do
     {:noreply, socket}
   end
+
+  defp dformat(timestamp) do
+    {:ok, formatted} = Timex.format(DateTime.from_naive!(timestamp, "Etc/UTC"), "{ISOdate} {ISOtime}")
+    formatted
+  end
 end
