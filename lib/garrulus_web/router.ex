@@ -29,6 +29,7 @@ defmodule GarrulusWeb.Router do
     live "/feeds", FeedsLive, :index
     live "/feeds/:feed_id", FeedLive, :index
     live "/subscriptions", SubscriptionsLive, :index
+    live "/logs", FetchLogsLive, :index
   end
 
   # Other scopes may use custom stacks.

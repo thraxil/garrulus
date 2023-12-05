@@ -375,6 +375,15 @@ defmodule Garrulus.Reader do
     |> Repo.preload([:entry, [entry: :feed]])
   end
 
+  def list_fetchlogs(limit \\ 100) do
+    Repo.all(
+      from u in FetchLog,
+        order_by: [desc: u.updated_at],
+        limit: ^limit
+    )
+    |> Repo.preload([:feed])
+  end
+
   @doc """
   Returns list of feeds that a given user is *not* subscribed to
 

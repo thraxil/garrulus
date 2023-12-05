@@ -1,0 +1,27 @@
+<section class="overflow-x-auto w-full gap-4">
+
+  <table class="table table-auto w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Status Code</th>
+        <th class="px-4 py-2">Inserted At</th>
+        <th class="px-4 py-2">Feed</th>
+        <th class="px-4 py-2">entries created</th>
+        <th class="px-4 py-2">id</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for log <- @logs do %>
+        <tr>
+          <td class="border px-4 py-2"><%= log.status %></td>
+          <td class="border px-4 py-2"><%= log.response_status_code %></td>
+          <td class="border px-4 py-2"><%= log.inserted_at %></td>
+          <td class="border px-4 py-2"><.link href={~p"/feeds/#{log.feed}"}><%= log.feed.title %></.link></td>
+          <td class="border px-4 py-2"><%= log.new_entries %></td>
+          <td class="border px-4 py-2"><%= log.id %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
