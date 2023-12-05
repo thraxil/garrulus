@@ -82,7 +82,9 @@ defmodule GarrulusWeb.EntriesLive do
   end
 
   defp dformat(timestamp) do
-    {:ok, formatted} = Timex.format(DateTime.from_naive!(timestamp, "Etc/UTC"), "{ISOdate} {ISOtime}")
+    {:ok, formatted} =
+      Timex.format(DateTime.from_naive!(timestamp, "Etc/UTC"), "{ISOdate} {ISOtime}")
+
     formatted
   end
 end
