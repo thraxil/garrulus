@@ -5,10 +5,10 @@
 </div>
 
 <article>
-  <%= for read_ue <- @recent_read_entries do %>
+  <%= for ue <- @recent_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
-        <span class="float-right"><%= dformat(read_ue.entry.published) %></span>
-        <h2 class="text-1xl font-extrabold text-slate-500"><%= read_ue.entry.feed.title %>: <a href={read_ue.entry.link}><%= read_ue.entry.title %></a></h2>
+        <span class="float-right"><%= dformat(ue.entry.published) %></span>
+        <h2 class="text-1xl font-extrabold text-slate-500"><%= ue.entry.feed.title %>: <a href={ue.entry.link}><%= ue.entry.title %></a></h2>
       </div>
   <% end %>
 
