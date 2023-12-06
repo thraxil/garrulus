@@ -6,17 +6,20 @@ defmodule GarrulusWeb.EntriesLive do
   @preview_entries 10
   @review_entries 2
 
-  defp get_entries(user, read_offset \\ 0) do
+  defp get_entries(user, read_offset) do
     IO.puts(read_offset)
     unread = Reader.list_unread_user_uentries(user, @preview_entries)
 
-    read = Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries + read_offset))
+    read =
+      Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries + read_offset))
 
-    current_entry = if read_offset == 0 do
-      Reader.get_current_user_uentry(user)
-    else
-      [Enum.at(read, -1 * read_offset)]
-    end
+    current_entry =
+      if read_offset == 0 do
+        Reader.get_current_user_uentry(user)
+      else
+        [Enum.at(read, -1 * read_offset)]
+      end
+
     %{
       unread_entries: unread,
       unread_entries_count: Reader.count_unread_user_uentries(user),
