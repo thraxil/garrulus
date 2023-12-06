@@ -3,6 +3,9 @@ defmodule GarrulusWeb.EntriesLive do
   alias Garrulus.Accounts
   alias Garrulus.Reader
 
+  @preview_entries 10
+  @review_entries 2
+
   def mount(_params, %{"user_token" => user_token}, socket) do
     user = Accounts.get_user_by_session_token(user_token)
 
@@ -10,10 +13,10 @@ defmodule GarrulusWeb.EntriesLive do
       socket
       |> assign(:current_user, Accounts.get_user_by_session_token(user_token))
       |> assign(
-        upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        upcoming_entries: Reader.list_unread_user_uentries(user, @preview_entries),
         unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
-        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
+        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries)),
         trigger_submit: false,
         check_errors: false
       )
@@ -29,10 +32,10 @@ defmodule GarrulusWeb.EntriesLive do
     socket =
       socket
       |> assign(
-        upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        upcoming_entries: Reader.list_unread_user_uentries(user, @preview_entries),
         unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
-        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
+        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries)),
         trigger_submit: false,
         check_errors: false
       )
@@ -47,10 +50,10 @@ defmodule GarrulusWeb.EntriesLive do
     socket =
       socket
       |> assign(
-        upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        upcoming_entries: Reader.list_unread_user_uentries(user, @preview_entries),
         unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
-        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
+        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries)),
         trigger_submit: false,
         check_errors: false
       )
@@ -66,10 +69,10 @@ defmodule GarrulusWeb.EntriesLive do
     socket =
       socket
       |> assign(
-        upcoming_entries: Reader.list_unread_user_uentries(user, 10),
+        upcoming_entries: Reader.list_unread_user_uentries(user, @preview_entries),
         unread_entries_count: Reader.count_unread_user_uentries(user),
         current_entry: Reader.get_current_user_uentry(user),
-        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, 2)),
+        recent_read_entries: Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries)),
         trigger_submit: false,
         check_errors: false
       )
