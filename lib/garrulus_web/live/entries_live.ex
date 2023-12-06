@@ -17,7 +17,8 @@ defmodule GarrulusWeb.EntriesLive do
       unread_entries_count: Reader.count_unread_user_uentries(user),
       current_entry: Reader.get_current_user_uentry(user),
       prev_read_entries: read,
-      next_read_entries: []
+      next_read_entries: [],
+      read_offset: read_offset
     }
   end
 
@@ -30,7 +31,8 @@ defmodule GarrulusWeb.EntriesLive do
       unread_entries_count: entries.unread_entries_count,
       current_entry: entries.current_entry,
       prev_read_entries: entries.prev_read_entries,
-      next_read_entries: entries.next_read_entries
+      next_read_entries: entries.next_read_entries,
+      read_offset: entries.read_offset
     )
   end
 
