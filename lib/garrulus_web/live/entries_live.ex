@@ -51,12 +51,6 @@ defmodule GarrulusWeb.EntriesLive do
     {:noreply, socket |> fresh_data(user)}
   end
 
-  def handle_event("key_event", %{"key" => "r"}, socket) do
-    # force reload
-    %{assigns: %{current_user: user}} = socket
-    {:noreply, socket |> fresh_data(user)}
-  end
-
   def handle_event("key_event", %{"key" => _}, socket) do
     {:noreply, socket}
   end
