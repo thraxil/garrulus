@@ -204,7 +204,9 @@ defmodule Garrulus.Reader.Worker do
   end
 
   defp schedule_next_fetch({:error, feed, log}) do
-    backoff_schedule = [1, 2, 5, 10, 20, 50, 100]
+    # hours. max out at about two days.
+    backoff_schedule = [1, 2, 5, 10, 20, 50]
+
     now = DateTime.utc_now()
     next_fetch = Timex.shift(now, hours: Enum.at(backoff_schedule, feed.backoff))
     jitter = :rand.uniform(60) - 30
