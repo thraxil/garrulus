@@ -5,7 +5,7 @@
 </div>
 
 <article>
-  <%= for ue <- @recent_read_entries do %>
+  <%= for ue <- @prev_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
         <span class="float-right"><%= dformat(ue.entry.published) %></span>
         <h2 class="text-1xl font-extrabold text-slate-500"><%= ue.entry.feed.title %>: <a href={ue.entry.link}><%= ue.entry.title %></a></h2>
@@ -31,6 +31,13 @@
         <div class="prose px-2 py-2">
           <%= raw(ue.entry.description) %>
         </div>
+      </div>
+  <% end %>
+
+  <%= for ue <- @next_read_entries do %>
+      <div class="entry bg-slate-100 text-slate-400 m-1">
+        <span class="float-right"><%= dformat(ue.entry.published) %></span>
+        <h2 class="text-1xl font-extrabold text-slate-500"><%= ue.entry.feed.title %>: <a href={ue.entry.link}><%= ue.entry.title %></a></h2>
       </div>
   <% end %>
 
