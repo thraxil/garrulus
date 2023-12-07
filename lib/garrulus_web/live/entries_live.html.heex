@@ -20,7 +20,7 @@
            >
           <span class="float-right px-2"><%= dformat(ue.entry.published) %></span>
 
-          <h2 class="text-1xl font-extrabold dark:text-white
+          <h2 class="text-1xl font-extrabold
                      bg-slate-200 px-2
                      ">
             <a href={ue.entry.link}><%= ue.entry.title %></a>
@@ -56,7 +56,7 @@
   <%= for ue <- @upcoming_entries do %>
       <div class="entry m-1 bg-slate-200">
         <span class="float-right"><%= dformat(ue.entry.published) %></span>
-        <h2 class="text-1xl dark:text-white"><%= ue.entry.feed.title %>: <%= ue.entry.title %></h2>
+        <h2 class="text-1xl"><%= ue.entry.feed.title %>: <%= ue.entry.title %></h2>
       </div>
   <% end %>
 </article>
