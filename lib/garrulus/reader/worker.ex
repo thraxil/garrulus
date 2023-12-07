@@ -204,19 +204,16 @@ defmodule Garrulus.Reader.Worker do
   end
 
   defp schedule_next_fetch({:error, feed, log}) do
-    IO.puts("scheduling next fetch on failed feed. #{feed.url}")
-    IO.puts("backoff: #{feed.backoff}")
     # hours. max out at about two days.
     backoff_schedule = [1, 2, 5, 10, 20, 50]
+    backoff = min(feed.backoff, length(backoff_schedule) - 1)
 
     now = DateTime.utc_now()
-    next_fetch = Timex.shift(now, hours: Enum.at(backoff_schedule, feed.backoff))
+    next_fetch = Timex.shift(now, hours: Enum.at(backoff_schedule, backoff))
     jitter = :rand.uniform(60) - 30
     next_fetch = Timex.shift(next_fetch, minutes: jitter)
 
     new_backoff = min(feed.backoff + 1, length(backoff_schedule) - 1)
-
-    IO.puts("next fetch: #{next_fetch}")
 
     Garrulus.Reader.update_feed(feed, %{
       last_fetched: now,
@@ -225,11 +222,9 @@ defmodule Garrulus.Reader.Worker do
       backoff: new_backoff
     })
 
-    IO.puts("feed updated")
-
     Garrulus.Reader.log_fetch(
       feed,
-      Map.get(log, :status, :error),
+      Map.get(log, :status, :failed),
       Map.get(log, :response_status_code, 200),
       Map.get(log, :response_body, ""),
       Map.get(log, :new_entries, 0)
