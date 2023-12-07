@@ -369,7 +369,7 @@ defmodule Garrulus.Reader do
     Repo.all(
       from u in UEntry,
         where: u.user_id == ^user.id and u.read == true,
-        order_by: [desc: u.updated_at],
+        order_by: [desc: u.inserted_at, desc: u.id],
         limit: ^limit
     )
     |> Repo.preload([:entry, [entry: :feed]])
@@ -378,7 +378,7 @@ defmodule Garrulus.Reader do
   def list_fetchlogs(limit \\ 100) do
     Repo.all(
       from u in FetchLog,
-        order_by: [desc: u.updated_at],
+        order_by: [desc: u.inserted_at],
         limit: ^limit
     )
     |> Repo.preload([:feed])
