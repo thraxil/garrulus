@@ -12,19 +12,21 @@ defmodule GarrulusWeb.EntriesLive do
     read =
       Enum.reverse(Reader.list_recent_read_user_uentries(user, @review_entries + read_offset))
 
+    orig_current = Reader.get_current_user_uentry(user)
+
     current_entry =
       if read_offset == 0 do
-        Reader.get_current_user_uentry(user)
+        orig_current
       else
         [Enum.at(read, -1 * read_offset)]
       end
 
     next_read_entries =
       if read_offset > 1 do
-        Enum.take(read, -1 * (read_offset - 1))
+        Enum.take(read, -1 * (read_offset - 1)) ++ orig_current
       else
         if read_offset == 1 do
-          Reader.get_current_user_uentry(user)
+          orig_current
         else
           []
         end
@@ -34,7 +36,7 @@ defmodule GarrulusWeb.EntriesLive do
       if read_offset == 0 do
         read
       else
-        {prev, _} = Enum.split(read, -1 * (read_offset + 1))
+        {prev, _} = Enum.split(read, -1 * read_offset)
         prev
       end
 
