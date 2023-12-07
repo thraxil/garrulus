@@ -7,7 +7,6 @@ defmodule GarrulusWeb.EntriesLive do
   @review_entries 2
 
   defp get_entries(user, read_offset) do
-    IO.puts(read_offset)
     unread = Reader.list_unread_user_uentries(user, @preview_entries)
 
     read =
@@ -20,12 +19,31 @@ defmodule GarrulusWeb.EntriesLive do
         [Enum.at(read, -1 * read_offset)]
       end
 
+    next_read_entries =
+      if read_offset > 1 do
+        Enum.take(read, -1 * (read_offset - 1))
+      else
+        if read_offset == 1 do
+          Reader.get_current_user_uentry(user)
+        else
+          []
+        end
+      end
+
+    prev_read_entries =
+      if read_offset == 0 do
+        read
+      else
+        {prev, _} = Enum.split(read, -1 * (read_offset + 1))
+        prev
+      end
+
     %{
       unread_entries: unread,
       unread_entries_count: Reader.count_unread_user_uentries(user),
       current_entry: current_entry,
-      prev_read_entries: read,
-      next_read_entries: [],
+      prev_read_entries: prev_read_entries,
+      next_read_entries: next_read_entries,
       read_offset: read_offset
     }
   end
