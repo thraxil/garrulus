@@ -6,25 +6,20 @@ defmodule Garrulus.Reader.Fetcher do
   end
 
   def init(state) do
-    schedule_work()
+    schedule_fetch_feeds()
     {:ok, state}
   end
 
-  def handle_info(:work, state) do
-    # Do the work you desire here
+  def handle_info(:fetch_feeds, state) do
     due = Garrulus.Reader.due_feeds()
     Enum.each(due, fn f -> Garrulus.Reader.Worker.fetch_feed(f) end)
-    # Reschedule once more
-    schedule_work()
+    schedule_fetch_feeds()
     {:noreply, state}
   end
 
-  defp schedule_work() do
+  defp schedule_fetch_feeds() do
     one_minute = 60 * 1000
-    # 10% jitter
     jitter = :rand.uniform(floor(one_minute / 10))
-    Process.send_after(self(), :work, one_minute + jitter)
-    # expunge uentries
-    # remove duplicate feeds
+    Process.send_after(self(), :fetch_feeds, one_minute + jitter)
   end
 end

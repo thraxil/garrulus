@@ -17,7 +17,8 @@ defmodule Garrulus.Application do
       # Start the Endpoint (http/https)
       GarrulusWeb.Endpoint,
       # Start a worker by calling: Garrulus.Worker.start_link(arg)
-      Garrulus.Reader.Fetcher
+      Garrulus.Reader.Fetcher,
+      Garrulus.Reader.Purger
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -384,6 +384,18 @@ defmodule Garrulus.Reader do
     |> Repo.preload([:feed])
   end
 
+  # delete uentries that are read and older than 7 days
+  def purge_uentries() do
+    now = DateTime.utc_now()
+    days = 7
+    cutoff = now |> Timex.shift(days: -1 * days)
+
+    Repo.delete_all(
+      from u in UEntry,
+        where: u.read == true and u.inserted_at < ^cutoff
+    )
+  end
+
   @doc """
   Returns list of feeds that a given user is *not* subscribed to
 
