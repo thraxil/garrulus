@@ -61,6 +61,13 @@ config :sentry,
   },
   included_environments: [:prod]
 
+config :garrulus, Garrulus.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

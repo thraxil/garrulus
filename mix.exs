@@ -56,6 +56,7 @@ defmodule Garrulus.MixProject do
       {:timex, "~> 3.7.9"},
       {:bcrypt_elixir, "~> 3.0"},
       {:fast_rss, "~> 0.5.0"},
+      {:prom_ex, "~> 1.9.0"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end

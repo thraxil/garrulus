@@ -8,6 +8,7 @@ defmodule Garrulus.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Garrulus.PromEx,
       # Start the Ecto repository
       Garrulus.Repo,
       # Start the Telemetry supervisor
