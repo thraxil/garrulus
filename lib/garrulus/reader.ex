@@ -396,6 +396,17 @@ defmodule Garrulus.Reader do
     )
   end
 
+  def purge_fetch_logs() do
+    now = DateTime.utc_now()
+    days = 7
+    cutoff = now |> Timex.shift(days: -7 * days)
+
+    Repo.delete_all(
+      from fl in FetchLog,
+        where: fl.inserted_at < ^cutoff
+    )
+  end
+
   @doc """
   Returns list of feeds that a given user is *not* subscribed to
 
