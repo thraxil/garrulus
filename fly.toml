@@ -10,7 +10,7 @@ processes = []
   release_command = "/app/bin/migrate"
 
 [env]
-  PHX_HOST = "garrulus.fly.dev"
+  PHX_HOST = "feeds.thraxil.org"
   PORT = "8080"
 
 [[services]]
