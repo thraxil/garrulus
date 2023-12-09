@@ -23,7 +23,7 @@
           <h2 class="text-1xl font-extrabold
                      bg-slate-200 px-2
                      ">
-            <a href={ue.entry.link}><%= ue.entry.title %></a>
+            <a href={ue.entry.link} data-open-on-o><%= ue.entry.title %></a>
         </h2>
           <div class="bg-slate-100 px-2">
             <.link href={~p"/feeds/#{ue.entry.feed}"}><%= ue.entry.feed.title %></.link>
@@ -61,3 +61,15 @@
   <% end %>
 </article>
 </section>
+
+
+  <script>
+    const elementsToOpen = document.querySelectorAll('[data-open-on-o]');
+    document.addEventListener('keydown', function(event) {
+    if (event.key === 'o') {
+        elementsToOpen.forEach(element => {
+           window.open(element.href, '_blank');
+        });
+      }
+    });
+  </script>
