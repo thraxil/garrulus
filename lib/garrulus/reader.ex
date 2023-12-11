@@ -612,4 +612,39 @@ defmodule Garrulus.Reader do
   def change_uentry(%UEntry{} = uentry, attrs \\ %{}) do
     UEntry.changeset(uentry, attrs)
   end
+
+  def feeds_count() do
+    Repo.one(
+      from f in Feed,
+        select: count(f.id)
+    )
+  end
+
+  def subscriptions_count() do
+    Repo.one(
+      from s in Subscription,
+        select: count(s.id)
+    )
+  end
+
+  def entries_count() do
+    Repo.one(
+      from e in Entry,
+        select: count(e.id)
+    )
+  end
+
+  def uentries_count() do
+    Repo.one(
+      from e in UEntry,
+        select: count(e.id)
+    )
+  end
+
+  def fetchlogs_count() do
+    Repo.one(
+      from e in FetchLog,
+        select: count(e.id)
+    )
+  end
 end

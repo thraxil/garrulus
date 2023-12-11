@@ -8,7 +8,6 @@ defmodule Garrulus.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Garrulus.PromEx,
       # Start the Ecto repository
       Garrulus.Repo,
       # Start the Telemetry supervisor
@@ -19,7 +18,8 @@ defmodule Garrulus.Application do
       GarrulusWeb.Endpoint,
       # Start a worker by calling: Garrulus.Worker.start_link(arg)
       Garrulus.Reader.Fetcher,
-      Garrulus.Reader.Purger
+      Garrulus.Reader.Purger,
+      Garrulus.PromEx
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
