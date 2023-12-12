@@ -26,9 +26,9 @@
         <tr>
           <td><%= subscription.feed.title %></td>
           <td>0</td>
-          <td><%= subscription.feed.last_fetched %></td>
-          <td><%= subscription.feed.last_failed %></td>
-          <td><%= subscription.feed.next_fetch %></td>
+          <td><.dformat timestamp={subscription.feed.last_fetched} /></td>
+          <td><.dformat timestamp={subscription.feed.last_failed} /></td>
+          <td><.dformat timestamp={subscription.feed.next_fetch} /></td>
           <td>
             <.button
               phx-click="unsubscribe"

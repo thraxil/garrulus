@@ -44,7 +44,7 @@
             </td>
             <td><%= feed.backoff %></td>
             <td><tt><%= feed.url %></tt></td>
-            <td><%= feed.last_fetched %></td>
+            <td><.dformat timestamp={feed.last_fetched} /></td>
             <td><.button
                   phx-click="delete"
                   phx-value-id={feed.id}

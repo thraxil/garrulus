@@ -33,14 +33,4 @@ defmodule GarrulusWeb.SubscriptionsLive do
     subscriptions = Reader.list_user_subscriptions(user)
     {:noreply, socket |> assign(:feeds, feeds) |> assign(:subscriptions, subscriptions)}
   end
-
-  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    form = to_form(changeset, as: "feed")
-
-    if changeset.valid? do
-      assign(socket, form: form, check_errors: false)
-    else
-      assign(socket, form: form)
-    end
-  end
 end

@@ -16,7 +16,7 @@
         <tr>
           <td class="border px-4 py-2"><%= log.status %></td>
           <td class="border px-4 py-2"><%= log.response_status_code %></td>
-          <td class="border px-4 py-2"><%= log.inserted_at %></td>
+          <td class="border px-4 py-2"><.dformat timestamp={log.inserted_at} /></td>
           <td class="border px-4 py-2"><.link href={~p"/feeds/#{log.feed}"}><%= log.feed.title %></.link></td>
           <td class="border px-4 py-2"><%= log.new_entries %></td>
           <td class="border px-4 py-2"><%= log.id %></td>

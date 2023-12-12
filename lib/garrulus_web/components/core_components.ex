@@ -1,41 +1,22 @@
 defmodule GarrulusWeb.CoreComponents do
-  @moduledoc """
-  Provides core UI components.
-
-  At the first glance, this module may seem daunting, but its goal is
-  to provide some core building blocks in your application, such modals,
-  tables, and forms. The components are mostly markup and well documented
-  with doc strings and declarative assigns. You may customize and style
-  them in any way you want, based on your application growth and needs.
-
-  The default components use Tailwind CSS, a utility-first CSS framework.
-  See the [Tailwind CSS documentation](https://tailwindcss.com) to learn
-  how to customize them or feel free to swap in another framework altogether.
-
-  Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
-  """
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
   import GarrulusWeb.Gettext
 
-  @doc """
-  Renders a modal.
+  attr :timestamp, :any, required: true
 
-  ## Examples
+  def dformat(assigns) do
+    {:ok, formatted} =
+      Timex.format(DateTime.from_naive!(assigns.timestamp, "Etc/UTC"), "{ISOdate} {ISOtime}")
 
-      <.modal id="confirm-modal">
-        This is a modal.
-      </.modal>
+    assigns = assign_new(assigns, :timestamp_new, fn -> formatted end)
 
-  JS commands may be passed to the `:on_cancel` to configure
-  the closing/cancel event, for example:
+    ~H"""
+    <%= @timestamp_new %>
+    """
+  end
 
-      <.modal id="confirm" on_cancel={JS.navigate(~p"/posts")}>
-        This is another modal.
-      </.modal>
-
-  """
   attr :id, :string, required: true
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}

@@ -5,9 +5,9 @@
     <tbody>
       <tr><th>URL</th><td><%= @feed.url %></td></tr>
       <tr><th>GUID</th><td><%= @feed.guid %></td></tr>
-      <tr><th>Last Fetched</th><td><%= @feed.last_fetched %></td></tr>
-      <tr><th>Last Failed</th><td><%= @feed.last_failed %></td></tr>
-      <tr><th>Next Fetch</th><td><%= @feed.next_fetch %></td></tr>
+      <tr><th>Last Fetched</th><td><.dformat timestamp={@feed.last_fetched} /></td></tr>
+      <tr><th>Last Failed</th><td><.dformat timestamp={@feed.last_failed} /></td></tr>
+      <tr><th>Next Fetch</th><td><.dformat timestamp={@feed.next_fetch} /></td></tr>
       <tr><th>Backoff</th><td><%= @feed.backoff %></td></tr>
       <tr><th>Etag</th><td><%= @feed.etag %></td></tr>
     </tbody>
@@ -15,7 +15,7 @@
 
   <%= for entry <- @entries do %>
       <div class="entry border-solid border-2 border-indigo-200 m-1">
-          <span class="float-right px-2"><%= entry.published %></span>
+          <span class="float-right px-2"><.dformat timestamp={entry.published} /></span>
 
           <h2 class="text-1xl font-extrabold dark:text-white
                      bg-slate-200 px-2

@@ -7,7 +7,7 @@
 <article>
   <%= for ue <- @prev_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
-        <span class="float-right"><%= dformat(ue.entry.published) %></span>
+        <span class="float-right"><.dformat timestamp={ue.entry.published} /></span>
         <h2 class="text-1xl font-extrabold text-slate-500"><%= ue.entry.feed.title %>: <a href={ue.entry.link}><%= ue.entry.title %></a></h2>
       </div>
   <% end %>
@@ -18,7 +18,7 @@
            phx-value-uentry_id={ue.id}
            phx-throttle="100"
            >
-          <span class="float-right px-2"><%= dformat(ue.entry.published) %></span>
+          <span class="float-right px-2"><.dformat timestamp={ue.entry.published} /></span>
 
           <h2 class="text-1xl font-extrabold
                      bg-slate-200 px-2
@@ -36,7 +36,7 @@
 
   <%= for ue <- @next_read_entries do %>
       <div class="entry bg-slate-100 text-slate-400 m-1">
-        <span class="float-right"><%= dformat(ue.entry.published) %></span>
+        <span class="float-right"><.dformat timestamp={ue.entry.published} /></span>
         <h2 class="text-1xl font-extrabold text-slate-500"><%= ue.entry.feed.title %>: <a href={ue.entry.link}><%= ue.entry.title %></a></h2>
       </div>
   <% end %>
@@ -55,7 +55,7 @@
   
   <%= for ue <- @upcoming_entries do %>
       <div class="entry m-1 bg-slate-200">
-        <span class="float-right"><%= dformat(ue.entry.published) %></span>
+        <span class="float-right"><.dformat timestamp={ue.entry.published} /></span>
         <h2 class="text-1xl"><%= ue.entry.feed.title %>: <%= ue.entry.title %></h2>
       </div>
   <% end %>
