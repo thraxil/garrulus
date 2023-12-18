@@ -12,9 +12,7 @@ defmodule Garrulus.Reader.Purger do
 
   def handle_info(:purge_uentries, state) do
     Garrulus.Reader.purge_uentries()
-    IO.puts("Purged uentries")
     Garrulus.Reader.purge_fetch_logs()
-    IO.puts("Purged fetch logs")
     schedule_purge_uentries()
     {:noreply, state}
   end

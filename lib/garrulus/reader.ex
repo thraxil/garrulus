@@ -399,7 +399,7 @@ defmodule Garrulus.Reader do
   def purge_fetch_logs() do
     now = DateTime.utc_now()
     days = 7
-    cutoff = now |> Timex.shift(days: -7 * days)
+    cutoff = now |> Timex.shift(days: -1 * days)
 
     Repo.delete_all(
       from fl in FetchLog,
