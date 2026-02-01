@@ -23,7 +23,7 @@ defmodule GarrulusWeb.PageController do
       {:ok, map_of_rss} ->
         IO.inspect(map_of_rss)
 
-      {:error, reason} ->
+      {:error, _reason} ->
         IO.puts("not RSS")
 
         case FastRSS.parse_atom(r.body) do

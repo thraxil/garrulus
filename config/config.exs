@@ -58,8 +58,7 @@ config :sentry,
   root_source_code_paths: [File.cwd!()],
   tags: %{
     env: "production"
-  },
-  included_environments: [:prod]
+  }
 
 config :garrulus, Garrulus.PromEx,
   disabled: false,

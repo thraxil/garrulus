@@ -2,7 +2,7 @@ defmodule GarrulusWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import GarrulusWeb.Gettext
+  use Gettext, backend: GarrulusWeb.Gettext
 
   attr :timestamp, :any, required: true
 

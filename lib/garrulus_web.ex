@@ -43,7 +43,7 @@ defmodule GarrulusWeb do
         layouts: [html: GarrulusWeb.Layouts]
 
       import Plug.Conn
-      import GarrulusWeb.Gettext
+      use Gettext, backend: GarrulusWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule GarrulusWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import GarrulusWeb.CoreComponents
-      import GarrulusWeb.Gettext
+      use Gettext, backend: GarrulusWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
