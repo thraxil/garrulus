@@ -5,6 +5,7 @@ kill_signal = "SIGTERM"
 kill_timeout = 5
 mounts = []
 processes = []
+swap_size_mb = 512
 
 [deploy]
   release_command = "/app/bin/migrate"
