@@ -8,7 +8,7 @@ processes = []
 swap_size_mb = 512
 
 [deploy]
-  release_command = "sh -c 'DATABASE_URL=${DIRECT_DATABASE_URL:-$DATABASE_URL} /app/bin/migrate'"
+  release_command = "sh -c 'POOL_SIZE=2 DATABASE_URL=${DIRECT_DATABASE_URL:-$DATABASE_URL} /app/bin/migrate'"
 
 [env]
   PHX_HOST = "feeds.thraxil.org"
