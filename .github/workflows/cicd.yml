@@ -17,10 +17,6 @@ jobs:
         elixir: ['1.15.7']
         otp: ['25.2.1']
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.13.0
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout Github repo
         uses: actions/checkout@v6
       - name: Sets up an Erlang/OTP environment
@@ -59,10 +55,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.13.0
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout Github repo
         uses: actions/checkout@v6
       - name: Sets up an Erlang/OTP environment
