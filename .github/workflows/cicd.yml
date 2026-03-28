@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.15.7']
-        otp: ['25.2.1']
+        elixir: ['1.16.2']
+        otp: ['26.2.1']
     steps:
       - name: Checkout Github repo
         uses: actions/checkout@v6
@@ -45,8 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.15.7']
-        otp: ['25.2.1']
+        elixir: ['1.16.2']
+        otp: ['26.2.1']
     services:
       db:
         image: postgres:latest
