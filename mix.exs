@@ -50,7 +50,7 @@ defmodule Garrulus.MixProject do
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.1"},
       {:gettext, "~> 0.26"},
-      {:sentry, "~> 12.0.3"},
+      {:sentry, "~> 13.0.0"},
       {:hackney, "~> 1.25"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.8"},
