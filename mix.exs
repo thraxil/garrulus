@@ -44,7 +44,7 @@ defmodule Garrulus.MixProject do
       {:lazy_html, ">= 0.1.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.4.1", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.5.0", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.17"},
       {:finch, "~> 0.21"},
       {:telemetry_metrics, "~> 1.0"},
