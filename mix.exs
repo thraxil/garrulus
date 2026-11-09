@@ -55,7 +55,7 @@ defmodule Garrulus.MixProject do
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.8"},
       {:httpoison, "~> 2.3"},
-      {:timex, "~> 3.7.13"},
+      {:timex, "~> 4.0.0"},
       {:bcrypt_elixir, "~> 3.3"},
       {:fast_rss, "~> 0.5.0"},
       {:prom_ex, "~> 1.12.0"},
