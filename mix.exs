@@ -49,7 +49,7 @@ defmodule Garrulus.MixProject do
       {:finch, "~> 0.21"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.1"},
-      {:gettext, "~> 0.26"},
+      {:gettext, "~> 1.0"},
       {:sentry, "~> 14.0.0"},
       {:hackney, "~> 1.25"},
       {:jason, "~> 1.4"},
